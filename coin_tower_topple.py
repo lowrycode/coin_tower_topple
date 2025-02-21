@@ -94,5 +94,9 @@ class CoinTowerTopple:
         print("SHOW RULES")
 
     def _quit(self):
-        print("\nThanks for playing!\n")
-        sys.exit(0)  # Exit program
+        """
+        Exits the game by displaying a farewell message and terminating
+        the program.
+        """
+        print("\nThanks for playing!\nSee you next time.\n")
+        sys.exit(0)
