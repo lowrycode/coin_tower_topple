@@ -91,7 +91,29 @@ class CoinTowerTopple:
         print("CHANGE GAME SETTINGS")
 
     def _show_rules(self):
-        print("SHOW RULES")
+        """
+        Displays the game rules and waits for user confirmation before
+        returning to the main menu.
+        """
+        rules_str = """
+RULES OF THE GAME
+
+Players take turns to add to a tower of coins until the tower 'topples'.
+This happens when the number of coins in the tower is greater than or equal
+to the 'topple height'.
+
+  1. The game starts with 1 coin in the tower.
+     The player to take the first move is chosen at random.
+
+  2. On their turn, each player chooses how many coins to add to the tower.
+     They must choose from a predefined set of numbers (e.g. 1, 3 or 4).
+
+  3. A player wins the game if they force their opponent to topple the tower.
+
+"""
+        print(rules_str)
+        input("Press Enter to return to main menu\n")
+        print(self._get_main_menu_str())
 
     def _quit(self):
         """
