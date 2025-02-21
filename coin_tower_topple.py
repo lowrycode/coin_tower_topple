@@ -84,16 +84,9 @@ class CoinTowerTopple:
             main_options_str += f"{key}. {description}\n"
         return main_options_str
 
-    def _play(self):
-        print("PLAY THE GAME")
-
-    def _change_settings(self):
-        print("CHANGE GAME SETTINGS")
-
-    def _show_rules(self):
+    def _get_rules_str(self):
         """
-        Displays the game rules and waits for user confirmation before
-        returning to the main menu.
+        Returns the game rules as a formatted multiline string.
         """
         rules_str = """
 RULES OF THE GAME
@@ -111,7 +104,20 @@ to the 'topple height'.
   3. A player wins the game if they force their opponent to topple the tower.
 
 """
-        print(rules_str)
+        return rules_str
+
+    def _play(self):
+        print("PLAY THE GAME")
+
+    def _change_settings(self):
+        print("CHANGE GAME SETTINGS")
+
+    def _show_rules(self):
+        """
+        Retrieves and displays the game rules, then waits for user confirmation
+        before returning to the main menu.
+        """
+        print(self._get_rules_str())
         input("Press Enter to return to main menu\n")
         print(self._get_main_menu_str())
 
