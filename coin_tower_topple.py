@@ -1,3 +1,6 @@
+import sys
+
+
 class CoinTowerTopple:
     """
     Implements the logic for the Coin Tower Topple game, including:
@@ -91,4 +94,5 @@ class CoinTowerTopple:
         print("SHOW RULES")
 
     def _quit(self):
-        print("QUIT")
+        print("\nThanks for playing!\n")
+        sys.exit(0)  # Exit program
