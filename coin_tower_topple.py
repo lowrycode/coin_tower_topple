@@ -137,6 +137,22 @@ to the 'topple height'.
         return rules_str
 
     def _play(self):
+        """
+        Runs the main game loop to allow a human player to compete against an
+        AI opponent.
+
+        The method:
+        - Initializes an AI player and trains it using reinforcement learning
+        with the current game settings.
+        - Displays the 'Play Game' title screen and game settings
+        - Determines which player (human or AI) has the first move and starts
+        the game.
+        - Alternates turns between the human and AI player, updating the tower
+        height after each turn
+        - Ends the game when the tower height reaches or exceeds the topple
+        height and declares the winner.
+        - Returns to the main menu.
+        """
         print("PLAY THE GAME")
 
         ai = AIPlayer(
@@ -157,7 +173,7 @@ to the 'topple height'.
             f"{self._get_settings_str()}\n\n"
         )
 
-        # Reset tower and game state
+        # Reset tower height and game state
         tower_height = 1
         game_state = -1
 
@@ -168,12 +184,35 @@ to the 'topple height'.
             "won the toss to take first move ..."
         )
 
-        # Put game loop here
-        print("\nGAME LOOP GOES HERE!\n")
+        # Enter game loop
+        while game_state < 0:
+            # Display current coin count
+            print(
+                "\nTower height: "
+                f"{tower_height} "
+                f"{'coin' if tower_height == 1 else 'coins'}"
+            )
+
+            # Get action
+            if player == 0:  # Human's turn - ask for action and validate
+                add_coins = self._get_valid_action()
+            else:  # AI's turn - choose best action
+                add_coins = ai.choose_action(tower_height, 0)
+                print(
+                    f"- The computer chose to add {add_coins} "
+                    f"{'coin' if add_coins == 1 else 'coins'}"
+                )
+
+            # Update tower_height and update game_state if required
+            tower_height += add_coins
+            if tower_height >= self.topple_height:
+                game_state = 0 if player == 1 else 1
+
+            # Switch player
+            player = 1 if player == 0 else 0
 
         # Game End
         print("\nTOWER HAS TOPPLED!\n")
-        game_state = 0  # For testing - REMOVE THIS
 
         if game_state == 0:  # Human player won
             print(
@@ -261,6 +300,44 @@ to the 'topple height'.
             else:
                 return nums
 
+    def _get_valid_action(self):
+        """
+        Prompts the player to input a valid number of coins to add to the
+        tower.
+
+        The function:
+        - Displays the available actions as a formatted list.
+        - Repeatedly asks the user for input until a valid number is entered.
+        - Ensures the chosen number is within the allowed set of possible
+        actions.
+        """
+        # Get numbers as comma separated list
+        possible_actions_str = ", ".join(
+            map(str, self.possible_actions)
+        )
+
+        # Replace last comma with "or"
+        parts = possible_actions_str.rsplit(",", 1)
+        possible_actions_str = " or".join(parts)
+
+        # Write prompt
+        prompt = (
+            "- How many coins would you like to add?\n"
+            f"  Choose {possible_actions_str} coins: ")
+
+        # Game loop
+        while True:
+            try:
+                response = int(input(prompt))
+                if response in self.possible_actions:
+                    return response
+                raise ValueError
+            except ValueError:
+                print(
+                    "- INVALID ENTRY: "
+                    "please choose one of the numbers stated above\n"
+                )
+
     def _change_settings(self):
         """
         Allows the user to modify the game settings by prompting for the 
@@ -331,24 +408,53 @@ class AIPlayer:
     """
     Represents the computer player.
     """
-
     def __init__(self, difficulty_index, topple_height, possible_actions):
         self.difficulty_index = difficulty_index
         self.topple_height = topple_height
         self.possible_actions = possible_actions
 
         # Initialise q_values
-        self.q_values = {(state, action): 0 for state in range(1, self.topple_height) for action in self.possible_actions}
+        self.q_values = {
+            (state, action): 0 for state in range(1, self.topple_height)
+            for action in self.possible_actions
+        }
         pprint(self.q_values)
+
+    def choose_action(self, current_state, explore_fraction):
+        """
+        Selects an action based on the current state and exploration factor.
+
+        The `explore_fraction` parameter controls the balance between
+        exploration and exploitation:
+        - FULL EXPLORATION: `1.0` - Always chooses a random action
+        (useful during AI training).
+        - FULL EXPLOITATION: `0.0` - Always selects the action with the
+        highest Q-value (useful for playing game on hardest difficulty).
+        - BALANCE: Between `0.0` and `1.0` - Randomly chooses between
+        exploration and exploitation (useful for playing game on lower
+        difficulty level SETTINGS).
+        """
+        if random.random() < explore_fraction:
+            # Choose random move
+            return random.choice(self.possible_actions)
+        else:
+            # Choose move with highest q_value
+            q_values = [
+                self.q_values[(current_state, action)]
+                for action in self.possible_actions
+            ]
+            max_index = q_values.index(max(q_values))
+            print(q_values, max_index)
+            return self.possible_actions[max_index]
 
     def train(self, num_training_games):
         print("\n\nTrain AI  ...")
 
         # Add seed values for testing purposes - REMOVE LATER
-        self.q_values[(3, 1)] = 1
-        self.q_values[(7, 1)] = 1
+        self.q_values[(2, 2)] = 1
+        self.q_values[(6, 2)] = 1
         self.q_values[(11, 1)] = 1
-        self.q_values[(15, 1)] = 1
+        self.q_values[(13, 3)] = 1
 
         print(
             f"\n\nSample Q_values after playing {num_training_games} "
