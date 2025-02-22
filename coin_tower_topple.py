@@ -233,7 +233,7 @@ to the 'topple height'.
 
             # Prompt user to play again
             response = self._get_valid_str(
-                "Would you like to play again?\n"
+                "Would you like to play again with the same settings?\n"
                 "- Enter 'y' for yes or 'n' for no: ",
                 ["y", "n"]
             )
