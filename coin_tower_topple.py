@@ -443,9 +443,14 @@ class AIPlayer:
                 self.q_values[(current_state, action)]
                 for action in self.possible_actions
             ]
-            max_index = q_values.index(max(q_values))
-            print(q_values, max_index)
-            return self.possible_actions[max_index]
+            max_q_value = max(q_values)
+            max_indices = [
+                i for i, q_value in enumerate(q_values)
+                if q_value == max_q_value
+            ]
+            random_max_index = random.choice(max_indices)
+            print(q_values, random_max_index)
+            return self.possible_actions[random_max_index]
 
     def train(self, num_training_games):
         print("\n\nTrain AI  ...")
