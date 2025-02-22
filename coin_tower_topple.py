@@ -1,6 +1,11 @@
 import sys
 
 
+class CustomError(Exception):
+    def __init__(self, message):
+        super().__init__(message)
+
+
 class CoinTowerTopple:
     """
     Implements the logic for the Coin Tower Topple game, including:
@@ -47,6 +52,9 @@ class CoinTowerTopple:
         self._run_main_menu()
 
     def _get_settings_str(self):
+        """
+        Returns a formatted string of the current game settings.
+        """
         settings_str = (
             "GAME SETTINGS\n"
             f"{'- Difficulty: ':<20} "
@@ -109,8 +117,124 @@ to the 'topple height'.
     def _play(self):
         print("PLAY THE GAME")
 
+    def _get_valid_int(self, prompt, min, max):
+        """
+        Repeatedly prompts the user for an integer input until a valid
+        response is provided.
+
+        Ensures that the input is a number within the specified range
+        [min, max]. Displays an error message for invalid entries.
+        """
+        while True:
+            try:
+                response = int(input(prompt))
+                if min <= response <= max:
+                    return response
+                raise ValueError
+            except ValueError:
+                print(
+                    "- INVALID ENTRY: "
+                    f"number must be between {min} and {max}\n")
+
+    def _get_valid_int_list(self, prompt, min, max):
+        """
+        Repeatedly prompts the user for a comma-separated list of integers
+        until a valid list is provided.
+
+        Ensures that the input:
+        - Contains at least two numbers.
+        - Consists only of unique integers.
+        - Falls within the specified range [min, max].
+
+        Returns a sorted list (low to high)
+        """
+        while True:
+            try:
+                response = input(prompt)
+                nums = response.split(",")
+
+                # Check enough items in list
+                if len(nums) < 2:
+                    raise CustomError(
+                        "- INVALID ENTRY: "
+                        "list must contain at least 2 numbers\n"
+                    )
+
+                # Convert to integers (or raise error)
+                nums = [int(item) for item in nums]
+
+                # Check numbers are unique
+                if len(nums) != len(set(nums)):
+                    raise CustomError(
+                        "- INVALID ENTRY: "
+                        "list must not contain duplicates\n"
+                    )
+
+                # Sort nums and check within range
+                nums.sort()
+                if nums[0] < min or nums[-1] > max:
+                    raise CustomError(
+                        "- INVALID ENTRY: "
+                        f"all numbers must be between {min} and {max}\n"
+                    )
+
+            except CustomError as e:
+                print(f"{e}")
+            except ValueError:
+                print(
+                    "- INVALID ENTRY: "
+                    "at least one list item was not an integer\n"
+                )
+            else:
+                return nums
+
     def _change_settings(self):
-        print("CHANGE GAME SETTINGS")
+        """
+        Allows the user to modify the game settings by prompting for the 
+        difficulty level, topple height, and possible actions.
+
+        If all inputs are valid, the updated configuration is displayed 
+        before returning to the main menu.
+        """
+
+        # Show introductory message
+        print(
+            "-----------------------------------------------------------\n"
+            "------------------ CHANGE GAME SETTINGS -------------------\n"
+            "-----------------------------------------------------------\n"
+            "Difficulty Options\n"
+            "1. Easy\n"
+            "2. Medium\n"
+            "3. Hard\n"
+        )
+
+        # Choose difficulty
+        prompt = "Choose difficulty option (1, 2 or 3): "
+        self.difficulty_level = self._get_valid_int(prompt, 1, 3)
+        print("- OK\n")
+        print("-----------------------------------------------------------\n")
+
+        # Choose topple height
+        prompt = "Specify the Topple Height (between 10 and 100): "
+        self.topple_height = self._get_valid_int(prompt, 10, 100)
+        print("- OK\n")
+        print("-----------------------------------------------------------\n")
+
+        # Write possible actions (list of numbers)
+        print(
+            "State the possible actions\n"
+            "i.e. how many coins may be added to the tower on each turn\n")
+        prompt = "Write a comma separated list of numbers (e.g. '1,3,4'): "
+        self.possible_actions = self._get_valid_int_list(
+            prompt, 1, self.topple_height
+        )
+        print("- OK\n")
+        print("-----------------------------------------------------------\n")
+
+        # Write new settings
+        print(f"{self._get_settings_str()}\n")
+        input("Press Enter to return to main menu\n")
+        print(self._get_main_menu_str())
 
     def _show_rules(self):
         """
