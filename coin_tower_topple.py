@@ -151,7 +151,8 @@ to the 'topple height'.
         height after each turn
         - Ends the game when the tower height reaches or exceeds the topple
         height and declares the winner.
-        - Returns to the main menu.
+        - Prompts the user about whether they want to play again. If so,
+        starts a new game, otherwise returns to the main menu.
         """
         print("PLAY THE GAME")
 
@@ -164,68 +165,80 @@ to the 'topple height'.
         # Train model (to get q_values)
         ai.train(10000)
 
-        print(
-            "\n\n"
-            "-----------------------------------------------------------\n"
-            "--------------------- PLAY GAME ---------------------------\n"
-            "-----------------------------------------------------------\n"
-            "\n"
-            f"{self._get_settings_str()}\n\n"
-        )
-
-        # Reset tower height and game state
-        tower_height = 1
-        game_state = -1
-
-        # Choose which player starts - 0: human, 1: computer
-        player = random.choice([0, 1])
-        print(
-            f"{'You' if player == 0 else 'Computer'} "
-            "won the toss to take first move ..."
-        )
-
-        # Enter game loop
-        while game_state < 0:
-            # Display current coin count
+        # Begin loop for replaying the game
+        replay = True
+        while replay:
             print(
-                "\nTower height: "
-                f"{tower_height} "
-                f"{'coin' if tower_height == 1 else 'coins'}"
+                "\n\n"
+                "-----------------------------------------------------------\n"
+                "--------------------- PLAY GAME ---------------------------\n"
+                "-----------------------------------------------------------\n"
+                "\n"
+                f"{self._get_settings_str()}\n\n"
             )
 
-            # Get action
-            if player == 0:  # Human's turn - ask for action and validate
-                add_coins = self._get_valid_action()
-            else:  # AI's turn - choose best action
-                add_coins = ai.choose_action(tower_height, 0)
+            # Reset tower height and game state
+            tower_height = 1
+            game_state = -1
+
+            # Choose which player starts - 0: human, 1: computer
+            player = random.choice([0, 1])
+            print(
+                f"{'You' if player == 0 else 'Computer'} "
+                "won the toss to take first move ..."
+            )
+
+            # Enter game loop
+            while game_state < 0:
+                # Display current coin count
                 print(
-                    f"- The computer chose to add {add_coins} "
-                    f"{'coin' if add_coins == 1 else 'coins'}"
+                    "\nTower height: "
+                    f"{tower_height} "
+                    f"{'coin' if tower_height == 1 else 'coins'}"
                 )
 
-            # Update tower_height and update game_state if required
-            tower_height += add_coins
-            if tower_height >= self.topple_height:
-                game_state = 0 if player == 1 else 1
+                # Get action
+                if player == 0:  # Human's turn - ask for action and validate
+                    add_coins = self._get_valid_action()
+                else:  # AI's turn - choose best action
+                    add_coins = ai.choose_action(tower_height, 0)
+                    print(
+                        f"- The computer chose to add {add_coins} "
+                        f"{'coin' if add_coins == 1 else 'coins'}"
+                    )
 
-            # Switch player
-            player = 1 if player == 0 else 0
+                # Update tower_height and update game_state if required
+                tower_height += add_coins
+                if tower_height >= self.topple_height:
+                    game_state = 0 if player == 1 else 1
 
-        # Game End
-        print("\nTOWER HAS TOPPLED!\n")
+                # Switch player
+                player = 1 if player == 0 else 0
 
-        if game_state == 0:  # Human player won
-            print(
-                "-----------------------------------------------------------\n"
-                "------------------ GAME OVER - YOU WON! -------------------\n"
-                "-----------------------------------------------------------\n"
+            # Game End
+            print("\nTOWER HAS TOPPLED!\n")
+
+            if game_state == 0:  # Human player won
+                print(
+                    "-----------------------------------------------------------\n"
+                    "------------------ GAME OVER - YOU WON! -------------------\n"
+                    "-----------------------------------------------------------\n"
+                )
+            else:  # Computer won
+                print(
+                    "-----------------------------------------------------------\n"
+                    "---------------- GAME OVER - COMPUTER WON -----------------\n"
+                    "-----------------------------------------------------------\n"
+                )
+
+            # Prompt user to play again
+            response = self._get_valid_str(
+                "Would you like to play again?\n"
+                "- Enter 'y' for yes or 'n' for no: ",
+                ["y", "n"]
             )
-        else:  # Computer won
-            print(
-                "-----------------------------------------------------------\n"
-                "---------------- GAME OVER - COMPUTER WON -----------------\n"
-                "-----------------------------------------------------------\n"
-            )
+            if response != "y":
+                replay = False
 
         print(self._get_main_menu_str())
 
@@ -336,6 +349,31 @@ to the 'topple height'.
                 print(
                     "- INVALID ENTRY: "
                     "please choose one of the numbers stated above\n"
+                )
+
+    def _get_valid_str(self, prompt, valid_options):
+        """
+        Repeatedly prompts the user for input until a valid response is
+        provided.
+
+        The user is required to enter a string that matches one of the
+        items in the `valid_options` list (case-insensitive).
+
+        Returns the input after converting to lowercase and stripping
+        leading/trailing whitespace.
+        """
+        while True:
+            try:
+                response = input(prompt)
+                response = response.strip().lower()
+                if response in valid_options:
+                    return response
+                raise ValueError
+            except ValueError:
+                print(
+                    "- INVALID ENTRY: "
+                    "must enter either one of the following...\n"
+                    f"  {','.join(valid_options)}\n"
                 )
 
     def _change_settings(self):
