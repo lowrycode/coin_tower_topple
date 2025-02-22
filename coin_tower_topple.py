@@ -51,12 +51,16 @@ class CoinTowerTopple:
         print(self._get_settings_str())
         self._run_main_menu()
 
-    def _get_settings_str(self):
+    def _get_settings_str(self, prefix_title=""):
         """
         Returns a formatted string of the current game settings.
+
+        Parameters:
+        prefix_title (str, optional): A custom title prefix to prepend
+        before "GAME SETTINGS". Defaults to an empty string.
         """
         settings_str = (
-            "GAME SETTINGS\n"
+            f"{prefix_title}GAME SETTINGS\n"
             f"{'- Difficulty: ':<20} "
             f"{self.DIFFICULTY_DESCRIPTION_MAP[self.difficulty_level]}\n"
             f"{'- Topple Height: ':<20} {self.topple_height}\n"
@@ -232,7 +236,7 @@ to the 'topple height'.
         print("-----------------------------------------------------------\n")
 
         # Write new settings
-        print(f"{self._get_settings_str()}\n")
+        print(f"{self._get_settings_str("NEW ")}\n")
         input("Press Enter to return to main menu\n")
         print(self._get_main_menu_str())
 
