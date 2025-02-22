@@ -22,6 +22,7 @@ class CoinTowerTopple:
 
     DIFFICULTY_DESCRIPTION_MAP = {1: "Easy", 2: "Medium", 3: "Hard"}
 
+    # Initialisation and Game Entry
     def __init__(self):
         """
         Initializes the CoinTowerTopple game with default settings.
@@ -56,24 +57,7 @@ class CoinTowerTopple:
         print(self._get_settings_str())
         self._run_main_menu()
 
-    def _get_settings_str(self, prefix_title=""):
-        """
-        Returns a formatted string of the current game settings.
-
-        Parameters:
-        prefix_title (str, optional): A custom title prefix to prepend
-        before "GAME SETTINGS". Defaults to an empty string.
-        """
-        settings_str = (
-            f"{prefix_title}GAME SETTINGS\n"
-            f"{'- Difficulty: ':<20} "
-            f"{self.DIFFICULTY_DESCRIPTION_MAP[self.difficulty_level]}\n"
-            f"{'- Topple Height: ':<20} {self.topple_height}\n"
-            f"{'- Possible Actions: ':<20} "
-            f"{', '.join(map(str, self.possible_actions))}"
-        )
-        return settings_str
-
+    # Main Menu and Callbacks
     def _run_main_menu(self):
         """
         Starts the main menu loop.
@@ -104,37 +88,6 @@ class CoinTowerTopple:
                     "must be a number between 1 and "
                     f"{len(self.main_options)}\n"
                 )
-
-    def _get_main_menu_str(self):
-        """
-        Returns a formatted string of the Main Menu.
-        """
-        main_options_str = "\nMAIN MENU\n"
-        for key, (description, _) in self.main_options.items():
-            main_options_str += f"{key}. {description}\n"
-        return main_options_str
-
-    def _get_rules_str(self):
-        """
-        Returns the game rules as a formatted multiline string.
-        """
-        rules_str = """
-RULES OF THE GAME
-
-Players take turns to add to a tower of coins until the tower 'topples'.
-This happens when the number of coins in the tower is greater than or equal
-to the 'topple height'.
-
-  1. The game starts with 1 coin in the tower.
-     The player to take the first move is chosen at random.
-
-  2. On their turn, each player chooses how many coins to add to the tower.
-     They must choose from a predefined set of numbers (e.g. 1, 3 or 4).
-
-  3. A player wins the game if they force their opponent to topple the tower.
-
-"""
-        return rules_str
 
     def _play(self):
         """
@@ -242,6 +195,122 @@ to the 'topple height'.
 
         print(self._get_main_menu_str())
 
+    def _change_settings(self):
+        """
+        Allows the user to modify the game settings by prompting for the
+        difficulty level, topple height, and possible actions.
+
+        If all inputs are valid, the updated configuration is displayed
+        before returning to the main menu.
+        """
+
+        # Show introductory message
+        print(
+            "-----------------------------------------------------------\n"
+            "------------------ CHANGE GAME SETTINGS -------------------\n"
+            "-----------------------------------------------------------\n"
+            "Difficulty Options\n"
+            "1. Easy\n"
+            "2. Medium\n"
+            "3. Hard\n"
+        )
+
+        # Choose difficulty
+        prompt = "Choose difficulty option (1, 2 or 3): "
+        self.difficulty_level = self._get_valid_int(prompt, 1, 3)
+        print("- OK\n")
+        print("-----------------------------------------------------------\n")
+
+        # Choose topple height
+        prompt = "Specify the Topple Height (between 10 and 100): "
+        self.topple_height = self._get_valid_int(prompt, 10, 100)
+        print("- OK\n")
+        print("-----------------------------------------------------------\n")
+
+        # Write possible actions (list of numbers)
+        print(
+            "State the possible actions\n"
+            "i.e. how many coins may be added to the tower on each turn\n")
+        prompt = "Write a comma separated list of numbers (e.g. '1,3,4'): "
+        self.possible_actions = self._get_valid_int_list(
+            prompt, 1, self.topple_height
+        )
+        print("- OK\n")
+        print("-----------------------------------------------------------\n")
+
+        # Write new settings
+        print(f"{self._get_settings_str("NEW ")}\n")
+        input("Press Enter to return to main menu\n")
+        print(self._get_main_menu_str())
+
+    def _show_rules(self):
+        """
+        Retrieves and displays the game rules, then waits for user confirmation
+        before returning to the main menu.
+        """
+        print(self._get_rules_str())
+        input("Press Enter to return to main menu\n")
+        print(self._get_main_menu_str())
+
+    def _quit(self):
+        """
+        Exits the game by displaying a farewell message and terminating
+        the program.
+        """
+        print("\nThanks for playing!\nSee you next time.\n")
+        sys.exit(0)
+
+    # Helper functions for displays
+    def _get_main_menu_str(self):
+        """
+        Returns a formatted string of the Main Menu.
+        """
+        main_options_str = "\nMAIN MENU\n"
+        for key, (description, _) in self.main_options.items():
+            main_options_str += f"{key}. {description}\n"
+        return main_options_str
+
+    def _get_settings_str(self, prefix_title=""):
+        """
+        Returns a formatted string of the current game settings.
+
+        Parameters:
+        prefix_title (str, optional): A custom title prefix to prepend
+        before "GAME SETTINGS". Defaults to an empty string.
+        """
+        settings_str = (
+            f"{prefix_title}GAME SETTINGS\n"
+            f"{'- Difficulty: ':<20} "
+            f"{self.DIFFICULTY_DESCRIPTION_MAP[self.difficulty_level]}\n"
+            f"{'- Topple Height: ':<20} {self.topple_height}\n"
+            f"{'- Possible Actions: ':<20} "
+            f"{', '.join(map(str, self.possible_actions))}"
+        )
+        return settings_str
+
+    def _get_rules_str(self):
+        """
+        Returns the game rules as a formatted multiline string.
+        """
+        rules_str = """
+RULES OF THE GAME
+
+Players take turns to add to a tower of coins until the tower 'topples'.
+This happens when the number of coins in the tower is greater than or equal
+to the 'topple height'.
+
+  1. The game starts with 1 coin in the tower.
+     The player to take the first move is chosen at random.
+
+  2. On their turn, each player chooses how many coins to add to the tower.
+     They must choose from a predefined set of numbers (e.g. 1, 3 or 4).
+
+  3. A player wins the game if they force their opponent to topple the tower.
+
+"""
+        return rules_str
+
+    # Helper Functions for getting valid user input
     def _get_valid_int(self, prompt, min, max):
         """
         Repeatedly prompts the user for an integer input until a valid
@@ -375,71 +444,6 @@ to the 'topple height'.
                     "must enter either one of the following...\n"
                     f"  {','.join(valid_options)}\n"
                 )
-
-    def _change_settings(self):
-        """
-        Allows the user to modify the game settings by prompting for the 
-        difficulty level, topple height, and possible actions.
-
-        If all inputs are valid, the updated configuration is displayed 
-        before returning to the main menu.
-        """
-
-        # Show introductory message
-        print(
-            "-----------------------------------------------------------\n"
-            "------------------ CHANGE GAME SETTINGS -------------------\n"
-            "-----------------------------------------------------------\n"
-            "Difficulty Options\n"
-            "1. Easy\n"
-            "2. Medium\n"
-            "3. Hard\n"
-        )
-
-        # Choose difficulty
-        prompt = "Choose difficulty option (1, 2 or 3): "
-        self.difficulty_level = self._get_valid_int(prompt, 1, 3)
-        print("- OK\n")
-        print("-----------------------------------------------------------\n")
-
-        # Choose topple height
-        prompt = "Specify the Topple Height (between 10 and 100): "
-        self.topple_height = self._get_valid_int(prompt, 10, 100)
-        print("- OK\n")
-        print("-----------------------------------------------------------\n")
-
-        # Write possible actions (list of numbers)
-        print(
-            "State the possible actions\n"
-            "i.e. how many coins may be added to the tower on each turn\n")
-        prompt = "Write a comma separated list of numbers (e.g. '1,3,4'): "
-        self.possible_actions = self._get_valid_int_list(
-            prompt, 1, self.topple_height
-        )
-        print("- OK\n")
-        print("-----------------------------------------------------------\n")
-
-        # Write new settings
-        print(f"{self._get_settings_str("NEW ")}\n")
-        input("Press Enter to return to main menu\n")
-        print(self._get_main_menu_str())
-
-    def _show_rules(self):
-        """
-        Retrieves and displays the game rules, then waits for user confirmation
-        before returning to the main menu.
-        """
-        print(self._get_rules_str())
-        input("Press Enter to return to main menu\n")
-        print(self._get_main_menu_str())
-
-    def _quit(self):
-        """
-        Exits the game by displaying a farewell message and terminating
-        the program.
-        """
-        print("\nThanks for playing!\nSee you next time.\n")
-        sys.exit(0)
 
 
 class AIPlayer:
