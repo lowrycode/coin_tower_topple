@@ -2,6 +2,9 @@ import sys
 
 
 class CustomError(Exception):
+    """
+    Custom exception class for handling specific input validation errors.
+    """
     def __init__(self, message):
         super().__init__(message)
 
@@ -70,6 +73,16 @@ class CoinTowerTopple:
         return settings_str
 
     def _run_main_menu(self):
+        """
+        Starts the main menu loop.
+
+        Displays the menu options and prompts the user to select one.
+        - If the input is valid, the corresponding method is called
+        - If the input is invalid, an error message is displayed and the user
+        is prompted again.
+
+        The loop continues until the user chooses the 'Quit' option.
+        """
         print(self._get_main_menu_str())
         prompt = (
             f"Choose option (1 to {len(self.main_options)}): "
@@ -91,6 +104,9 @@ class CoinTowerTopple:
                 )
 
     def _get_main_menu_str(self):
+        """
+        Returns a formatted string of the Main Menu.
+        """
         main_options_str = "\nMAIN MENU\n"
         for key, (description, _) in self.main_options.items():
             main_options_str += f"{key}. {description}\n"
