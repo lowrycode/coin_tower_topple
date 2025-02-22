@@ -1,4 +1,6 @@
 import sys
+import random
+from pprint import pprint
 
 
 class CustomError(Exception):
@@ -137,6 +139,57 @@ to the 'topple height'.
     def _play(self):
         print("PLAY THE GAME")
 
+        ai = AIPlayer(
+            self.difficulty_level,
+            self.topple_height,
+            self.possible_actions
+        )
+
+        # Train model (to get q_values)
+        ai.train(10000)
+
+        print(
+            "\n\n"
+            "-----------------------------------------------------------\n"
+            "--------------------- PLAY GAME ---------------------------\n"
+            "-----------------------------------------------------------\n"
+            "\n"
+            f"{self._get_settings_str()}\n\n"
+        )
+
+        # Reset tower and game state
+        tower_height = 1
+        game_state = -1
+
+        # Choose which player starts - 0: human, 1: computer
+        player = random.choice([0, 1])
+        print(
+            f"{'You' if player == 0 else 'Computer'} "
+            "won the toss to take first move ..."
+        )
+
+        # Put game loop here
+        print("\nGAME LOOP GOES HERE!\n")
+
+        # Game End
+        print("\nTOWER HAS TOPPLED!\n")
+        game_state = 0  # For testing - REMOVE THIS
+
+        if game_state == 0:  # Human player won
+            print(
+                "-----------------------------------------------------------\n"
+                "------------------ GAME OVER - YOU WON! -------------------\n"
+                "-----------------------------------------------------------\n"
+            )
+        else:  # Computer won
+            print(
+                "-----------------------------------------------------------\n"
+                "---------------- GAME OVER - COMPUTER WON -----------------\n"
+                "-----------------------------------------------------------\n"
+            )
+
+        print(self._get_main_menu_str())
+
     def _get_valid_int(self, prompt, min, max):
         """
         Repeatedly prompts the user for an integer input until a valid
@@ -272,3 +325,33 @@ to the 'topple height'.
         """
         print("\nThanks for playing!\nSee you next time.\n")
         sys.exit(0)
+
+
+class AIPlayer:
+    """
+    Represents the computer player.
+    """
+
+    def __init__(self, difficulty_index, topple_height, possible_actions):
+        self.difficulty_index = difficulty_index
+        self.topple_height = topple_height
+        self.possible_actions = possible_actions
+
+        # Initialise q_values
+        self.q_values = {(state, action): 0 for state in range(1, self.topple_height) for action in self.possible_actions}
+        pprint(self.q_values)
+
+    def train(self, num_training_games):
+        print("\n\nTrain AI  ...")
+
+        # Add seed values for testing purposes - REMOVE LATER
+        self.q_values[(3, 1)] = 1
+        self.q_values[(7, 1)] = 1
+        self.q_values[(11, 1)] = 1
+        self.q_values[(15, 1)] = 1
+
+        print(
+            f"\n\nSample Q_values after playing {num_training_games} "
+            "practice games ...\n"
+        )
+        pprint(self.q_values)
