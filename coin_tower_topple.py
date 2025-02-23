@@ -462,7 +462,7 @@ class AIPlayer:
         }
 
     # Public methods
-    def choose_action(self, current_state, explore_fraction):
+    def choose_action(self, state, explore_fraction):
         """
         Selects an action based on the current state and exploration factor.
 
@@ -481,13 +481,13 @@ class AIPlayer:
             return random.choice(self.possible_actions)
         else:
             # Choose move with highest q_value
-            q_values = [
-                self.q_values.get((current_state, action), 0)
+            state_q_values = [
+                self.q_values.get((state, action), 0)
                 for action in self.possible_actions
             ]
-            max_q_value = max(q_values)
+            max_q_value = max(state_q_values)
             max_indices = [
-                i for i, q_value in enumerate(q_values)
+                i for i, q_value in enumerate(state_q_values)
                 if q_value == max_q_value
             ]
             random_max_index = random.choice(max_indices)
