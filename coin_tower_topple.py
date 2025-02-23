@@ -460,8 +460,8 @@ class AIPlayer:
             (state, action): 0 for state in range(1, self.topple_height)
             for action in self.possible_actions
         }
-        pprint(self.q_values)
 
+    # Public methods
     def choose_action(self, current_state, explore_fraction):
         """
         Selects an action based on the current state and exploration factor.
@@ -482,7 +482,7 @@ class AIPlayer:
         else:
             # Choose move with highest q_value
             q_values = [
-                self.q_values[(current_state, action)]
+                self.q_values.get((current_state, action), 0)
                 for action in self.possible_actions
             ]
             max_q_value = max(q_values)
@@ -491,20 +491,98 @@ class AIPlayer:
                 if q_value == max_q_value
             ]
             random_max_index = random.choice(max_indices)
-            print(q_values, random_max_index)
             return self.possible_actions[random_max_index]
 
     def train(self, num_training_games):
-        print("\n\nTrain AI  ...")
+        """
+        Trains the AI using reinforcement learning by simulating multiple
+        games.
 
-        # Add seed values for testing purposes - REMOVE LATER
-        self.q_values[(2, 2)] = 1
-        self.q_values[(6, 2)] = 1
-        self.q_values[(11, 1)] = 1
-        self.q_values[(13, 3)] = 1
+        The AI plays against itself for `num_training_games`, updating
+        Q-values for all state-action pairs. Actions are chosen randomly
+        to ensure comprehensive exploration of possible moves under the
+        current game settings (topple height and possible actions).
+        """
+        print("\n\nTraining AI ...")
 
-        print(
-            f"\n\nSample Q_values after playing {num_training_games} "
-            "practice games ...\n"
-        )
+        EXPLORE_FRACTION = 1  # Full exploration
+
+        for i in range(num_training_games):
+
+            # Reset game
+            state = 1  # height of tower
+            game_over = False
+
+            # Game loop
+            while not game_over:
+
+                # Choose (random) action
+                action = self.choose_action(state, EXPLORE_FRACTION)
+
+                # Get next_state that opponent will play from
+                next_state = state + action
+
+                # Get reward for updating q_value[(state, action)]
+                if next_state >= self.topple_height:
+                    reward = -1  # lost game
+                elif all(
+                    next_state + action >= self.topple_height
+                        for action in self.possible_actions
+                ):
+                    reward = 1  # forced opponent to lose on next turn
+                else:
+                    reward = 0
+
+                # Update q_values
+                self.q_values[(state, action)] = \
+                    self._update_q_value(state, action, reward)
+
+                # Change game_over flag (if game ended)
+                if next_state >= self.topple_height:
+                    game_over = True
+
+                # Update state
+                state = next_state
+
+        print("AI training complete")
         pprint(self.q_values)
+
+    # Helper functions
+    def _update_q_value(self, state, action, reward):
+
+        # Define constants for Bellman Equation
+        LEARNING_RATE = 0.8
+        DISCOUNT = 0.5
+
+        # Get next state that opponent will play from
+        next_state = state + action
+
+        # Predict opponents next move (using exploit strategy)
+        opponent_best_action = self.choose_action(next_state, 0)
+        opponents_best_q_value = \
+            self._get_max_future_reward(next_state + opponent_best_action)
+
+        # Calculate new current_q_value using Bellman Equation
+        current_q_value = self.q_values.get((state, action), 0)
+        current_q_value += LEARNING_RATE * (
+                reward + (DISCOUNT * opponents_best_q_value)
+                - current_q_value
+        )
+
+        debug_str = (
+            f"Q-VALUE FOR CURRENT STATE: {state}: {action} = {self.q_values[(state, action)]}\n"
+            f"NEXT STATE (OPPONENT): {next_state}: {[self.q_values.get((next_state, a), 0) for a in self.possible_actions]}\n"
+            f"BEST NEXT ACTION (OPPONENT): {opponent_best_action}: {[self.q_values.get((next_state + opponent_best_action, a), 0) for a in self.possible_actions]}\n"
+            f"UPDATED CURRENT STATE: {current_q_value}\n"
+        )
+        # if self.q_values[(state, action)] != current_q_value:
+        #     input(debug_str)
+
+        return current_q_value
+
+    def _get_max_future_reward(self, next_state):
+        future_rewards = [
+            self.q_values.get((next_state, action), 0)
+            for action in self.possible_actions
+        ]
+        return max(future_rewards)
