@@ -79,8 +79,9 @@ class CoinTowerTopple:
                 # Display options and get user response
                 response = int(input(prompt))
 
-                # Call relevant function
-                self.main_options[response][1]()
+                # Check response is valid main_options key
+                if response not in self.main_options:
+                    raise KeyError
 
             except (KeyError, ValueError):
                 print(
@@ -88,6 +89,9 @@ class CoinTowerTopple:
                     "must be a number between 1 and "
                     f"{len(self.main_options)}\n"
                 )
+            else:
+                # Call relevant function
+                self.main_options[response][1]()
 
     def _play(self):
         """
