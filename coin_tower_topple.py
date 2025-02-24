@@ -579,18 +579,19 @@ class AIPlayer:
         LEARNING_RATE = 0.8  # Weight of new experiences vs past experiences
         DISCOUNT = 0.5  # Weight of future rewards vs immediate rewards
 
-        # Get next state that opponent will play from
-        next_state = state + action
+        # Get opponents next state and predict next move (exploit strategy)
+        opponent_state = state + action
+        opponent_best_action = self.choose_action(opponent_state, 0)
 
-        # Predict opponents next move (using exploit strategy)
-        opponent_best_action = self.choose_action(next_state, 0)
-        opponents_best_q_value = \
-            self._get_max_future_reward(next_state + opponent_best_action)
+        # Get expected next state and future reward
+        expected_next_state = opponent_state + opponent_best_action
+        expected_future_reward = \
+            self._get_max_future_reward(expected_next_state)
 
         # Calculate new current_q_value using Bellman Equation
         current_q_value = self.q_values.get((state, action), 0)
         current_q_value += LEARNING_RATE * (
-                reward + (DISCOUNT * opponents_best_q_value)
+                reward + (DISCOUNT * expected_future_reward)
                 - current_q_value
         )
 
