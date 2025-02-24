@@ -40,7 +40,7 @@ class CoinTowerTopple:
         # Game settings
         self.difficulty_level = 1  # Key for DIFFICULTY_LEVEL_MAP
         self.topple_height = 21  # Number of coins that causes tower to topple
-        self.possible_actions = [1, 2, 3]  # Number of coins that can be added
+        self.possible_actions = [1, 2, 3]  # Sorted list of numbers (ascending)
 
         # Main Menu options:
         # Key: option ID (user input)
@@ -499,7 +499,7 @@ class AIPlayer:
     def __init__(self, difficulty_index, topple_height, possible_actions):
         self.difficulty_index = difficulty_index
         self.topple_height = topple_height
-        self.possible_actions = possible_actions
+        self.possible_actions = possible_actions  # sorted in ascending order
 
         # Initialise q_values
         self.q_values = {
@@ -571,10 +571,8 @@ class AIPlayer:
                 # Get reward for updating q_value[(state, action)]
                 if next_state >= self.topple_height:
                     reward = -1  # lost game
-                elif all(
-                    next_state + action >= self.topple_height
-                        for action in self.possible_actions
-                ):
+                elif self.possible_actions[0] >= self.topple_height:
+                    # considers smallest action only (for greater efficiency)
                     reward = 1  # forced opponent to lose on next turn
                 else:
                     reward = 0
