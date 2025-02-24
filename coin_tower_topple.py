@@ -566,10 +566,18 @@ class AIPlayer:
 
     # Helper functions
     def _update_q_value(self, state, action, reward):
+        """
+        Updates the Q-value for a given state-action pair using the Bellman
+        equation.
 
+        This function applies reinforcement learning principles to update the
+        Q-value based on the reward received and the estimated future rewards.
+        It considers the opponent's best possible action in the next state to
+        anticipate future rewards.
+        """
         # Define constants for Bellman Equation
-        LEARNING_RATE = 0.8
-        DISCOUNT = 0.5
+        LEARNING_RATE = 0.8  # Weight of new experiences vs past experiences
+        DISCOUNT = 0.5  # Weight of future rewards vs immediate rewards
 
         # Get next state that opponent will play from
         next_state = state + action
@@ -585,15 +593,6 @@ class AIPlayer:
                 reward + (DISCOUNT * opponents_best_q_value)
                 - current_q_value
         )
-
-        debug_str = (
-            f"Q-VALUE FOR CURRENT STATE: {state}: {action} = {self.q_values[(state, action)]}\n"
-            f"NEXT STATE (OPPONENT): {next_state}: {[self.q_values.get((next_state, a), 0) for a in self.possible_actions]}\n"
-            f"BEST NEXT ACTION (OPPONENT): {opponent_best_action}: {[self.q_values.get((next_state + opponent_best_action, a), 0) for a in self.possible_actions]}\n"
-            f"UPDATED CURRENT STATE: {current_q_value}\n"
-        )
-        # if self.q_values[(state, action)] != current_q_value:
-        #     input(debug_str)
 
         return current_q_value
 
