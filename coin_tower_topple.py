@@ -1,6 +1,5 @@
 import sys
 import random
-from pprint import pprint
 
 
 class CustomError(Exception):
@@ -60,7 +59,7 @@ class CoinTowerTopple:
         Displays the game title and default game settings before starting the
         Main Menu loop.
         """
-        print("\n\n#### COIN TOWER TOPPLE ####\n")
+        print(self._get_title_str())
         print(self._get_settings_str())
         self._run_main_menu()
 
@@ -118,15 +117,15 @@ class CoinTowerTopple:
         - Prompts the user about whether they want to play again. If so,
         starts a new game, otherwise returns to the main menu.
         """
-        print("PLAY THE GAME")
 
+        # Initialise AI with current game settings
         ai = AIPlayer(
             self.difficulty_level,
             self.topple_height,
             self.possible_actions
         )
 
-        # Train model (to get q_values)
+        # Train AI (to get q_values)
         ai.train(10000)
 
         # Apply difficulty level setting to AI
@@ -138,10 +137,10 @@ class CoinTowerTopple:
         while replay:
             print(
                 "\n\n"
-                "-----------------------------------------------------------\n"
-                "--------------------- PLAY GAME ---------------------------\n"
-                "-----------------------------------------------------------\n"
-                "\n"
+                "=========================== "
+                "PLAY GAME "
+                "==========================="
+                "\n\n"
                 f"{self._get_settings_str()}\n\n"
             )
 
@@ -190,15 +189,15 @@ class CoinTowerTopple:
 
             if game_state == 0:  # Human player won
                 print(
-                    "-----------------------------------------------------------\n"
-                    "------------------ GAME OVER - YOU WON! -------------------\n"
-                    "-----------------------------------------------------------\n"
+                    "====================== "
+                    "GAME OVER - YOU WON "
+                    "======================\n"
                 )
             else:  # Computer won
                 print(
-                    "-----------------------------------------------------------\n"
-                    "---------------- GAME OVER - COMPUTER WON -----------------\n"
-                    "-----------------------------------------------------------\n"
+                    "==================== "
+                    "GAME OVER - COMPUTER WON "
+                    "===================\n"
                 )
 
             # Prompt user to play again
@@ -222,27 +221,34 @@ class CoinTowerTopple:
         """
 
         # Show introductory message
-        print(
-            "-----------------------------------------------------------\n"
-            "------------------ CHANGE GAME SETTINGS -------------------\n"
-            "-----------------------------------------------------------\n"
-            "Difficulty Options\n"
-            "1. Easy\n"
-            "2. Medium\n"
-            "3. Hard\n"
-        )
+        print("""
+
+====================== CHANGE GAME SETTINGS =====================
+
+Difficulty Options
+1. Easy
+2. Medium
+3. Hard
+
+""")
 
         # Choose difficulty
         prompt = "Choose difficulty option (1, 2 or 3): "
         self.difficulty_level = self._get_valid_int(prompt, 1, 3)
         print("- OK\n")
-        print("-----------------------------------------------------------\n")
+        print(
+            "-----------------------------------------------------------------"
+            "\n"
+        )
 
         # Choose topple height
         prompt = "Specify the Topple Height (between 10 and 100): "
         self.topple_height = self._get_valid_int(prompt, 10, 100)
         print("- OK\n")
-        print("-----------------------------------------------------------\n")
+        print(
+            "-----------------------------------------------------------------"
+            "\n"
+        )
 
         # Write possible actions (list of numbers)
         print(
@@ -253,11 +259,17 @@ class CoinTowerTopple:
             prompt, 1, self.topple_height
         )
         print("- OK\n")
-        print("-----------------------------------------------------------\n")
+        print(
+            "-----------------------------------------------------------------"
+            "\n"
+        )
 
         # Write new settings
         print(f"{self._get_settings_str("NEW ")}\n")
-        input("Press Enter to return to main menu\n")
+        input("Press Enter to return to main menu: ")
+        print(
+            "-----------------------------------------------------------------"
+        )
         print(self._get_main_menu_str())
 
     def _show_rules(self):
@@ -266,7 +278,10 @@ class CoinTowerTopple:
         before returning to the main menu.
         """
         print(self._get_rules_str())
-        input("Press Enter to return to main menu\n")
+        input("Press Enter to return to main menu: ")
+        print(
+            "-----------------------------------------------------------------"
+        )
         print(self._get_main_menu_str())
 
     def _quit(self):
@@ -278,11 +293,22 @@ class CoinTowerTopple:
         sys.exit(0)
 
     # Helper functions for displays
+    def _get_title_str(self):
+        """
+        Returns the welcome title as a formatted multiline string.
+        """
+        title_str = """
+-----------------------------------------------------------------
+---------------------- COIN TOWER TOPPLE ------------------------
+-----------------------------------------------------------------
+"""
+        return title_str
+
     def _get_main_menu_str(self):
         """
         Returns a formatted string of the Main Menu.
         """
-        main_options_str = "\nMAIN MENU\n"
+        main_options_str = "\n\n========== MAIN MENU ==========\n"
         for key, (description, _) in self.main_options.items():
             main_options_str += f"{key}. {description}\n"
         return main_options_str
@@ -310,19 +336,22 @@ class CoinTowerTopple:
         Returns the game rules as a formatted multiline string.
         """
         rules_str = """
-RULES OF THE GAME
 
-Players take turns to add to a tower of coins until the tower 'topples'.
-This happens when the number of coins in the tower is greater than or equal
-to the 'topple height'.
+======================== RULES OF THE GAME ======================
+
+Players take turns to add to a tower of coins until the tower
+'topples'. This happens when the number of coins in the tower is
+greater than or equal to the 'topple height'.
 
   1. The game starts with 1 coin in the tower.
      The player to take the first move is chosen at random.
 
-  2. On their turn, each player chooses how many coins to add to the tower.
-     They must choose from a predefined set of numbers (e.g. 1, 3 or 4).
+  2. On their turn, each player chooses how many coins to add to
+     the tower. They must choose one of the numbers in the
+     Possible Actions list (defined in the game settings).
 
-  3. A player wins the game if they force their opponent to topple the tower.
+  3. A player wins the game if they force their opponent to topple
+     the tower.
 
 """
         return rules_str
@@ -562,7 +591,6 @@ class AIPlayer:
                 state = next_state
 
         print("AI training complete")
-        pprint(self.q_values)
 
     # Helper functions
     def _update_q_value(self, state, action, reward):
