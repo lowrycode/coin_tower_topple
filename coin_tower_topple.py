@@ -598,6 +598,13 @@ class AIPlayer:
         return current_q_value
 
     def _get_max_future_reward(self, next_state):
+        """
+        Computes the maximum possible future reward for a given state.
+
+        This function retrieves the Q-values for all possible actions in
+        the given next state and returns the highest value, representing
+        the best expected future reward.
+        """
         future_rewards = [
             self.q_values.get((next_state, action), 0)
             for action in self.possible_actions
