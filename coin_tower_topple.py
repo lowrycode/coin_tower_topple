@@ -549,7 +549,7 @@ class AIPlayer:
         to ensure comprehensive exploration of possible moves under the
         current game settings (topple height and possible actions).
         """
-        print("\n\nTraining AI ...")
+        print("\n\nTraining AI using current game settings...")
 
         EXPLORE_FRACTION = 1  # Full exploration
 
