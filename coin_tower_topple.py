@@ -20,7 +20,14 @@ class CoinTowerTopple:
     Use the start() method to launch the app
     """
 
-    DIFFICULTY_DESCRIPTION_MAP = {1: "Easy", 2: "Medium", 3: "Hard"}
+    # Mapping of difficulty levels to their properties:
+    # Key: difficulty_level
+    # Value: [description, explore_fraction]
+    DIFFICULTY_LEVEL_MAP = {
+        1: ["Easy", 0.66],
+        2: ["Medium", 0.33],
+        3: ["Hard", 0]
+    }
 
     # Initialisation and Game Entry
     def __init__(self):
@@ -32,7 +39,7 @@ class CoinTowerTopple:
         - Main Menu options: option IDs, descriptions and callback methods
         """
         # Game settings
-        self.difficulty_level = 1  # Key for DIFFICULTY_DESCRIPTION_MAP
+        self.difficulty_level = 1  # Key for DIFFICULTY_LEVEL_MAP
         self.topple_height = 21  # Number of coins that causes tower to topple
         self.possible_actions = [1, 2, 3]  # Number of coins that can be added
 
@@ -122,6 +129,10 @@ class CoinTowerTopple:
         # Train model (to get q_values)
         ai.train(10000)
 
+        # Apply difficulty level setting to AI
+        # (by stating probability that it makes a random decision)
+        explore_fraction = self.DIFFICULTY_LEVEL_MAP[self.difficulty_level][1]
+
         # Begin loop for replaying the game
         replay = True
         while replay:
@@ -158,7 +169,9 @@ class CoinTowerTopple:
                 if player == 0:  # Human's turn - ask for action and validate
                     add_coins = self._get_valid_action()
                 else:  # AI's turn - choose best action
-                    add_coins = ai.choose_action(tower_height, 0)
+                    add_coins = ai.choose_action(
+                        tower_height, explore_fraction
+                    )
                     print(
                         f"- The computer chose to add {add_coins} "
                         f"{'coin' if add_coins == 1 else 'coins'}"
@@ -285,7 +298,7 @@ class CoinTowerTopple:
         settings_str = (
             f"{prefix_title}GAME SETTINGS\n"
             f"{'- Difficulty: ':<20} "
-            f"{self.DIFFICULTY_DESCRIPTION_MAP[self.difficulty_level]}\n"
+            f"{self.DIFFICULTY_LEVEL_MAP[self.difficulty_level][0]}\n"
             f"{'- Topple Height: ':<20} {self.topple_height}\n"
             f"{'- Possible Actions: ':<20} "
             f"{', '.join(map(str, self.possible_actions))}"
