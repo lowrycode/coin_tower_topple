@@ -83,7 +83,7 @@ class CoinTowerTopple:
         while True:
             try:
                 # Display options and get user response
-                response = int(input(prompt))
+                response = int(input(prompt + "\n"))
 
                 # Check response is valid main_options key
                 if response not in self.main_options:
@@ -266,7 +266,7 @@ Difficulty Options
 
         # Write new settings
         print(f"{self._get_settings_str("NEW ")}\n")
-        input("Press Enter to return to main menu: ")
+        input("Press Enter to return to main menu: \n")
         print(
             "-----------------------------------------------------------------"
         )
@@ -278,7 +278,7 @@ Difficulty Options
         before returning to the main menu.
         """
         print(self._get_rules_str())
-        input("Press Enter to return to main menu: ")
+        input("Press Enter to return to main menu: \n")
         print(
             "-----------------------------------------------------------------"
         )
@@ -367,7 +367,7 @@ greater than or equal to the 'topple height'.
         """
         while True:
             try:
-                response = int(input(prompt))
+                response = int(input(prompt + "\n"))
                 if min <= response <= max:
                     return response
                 raise ValueError
@@ -390,7 +390,7 @@ greater than or equal to the 'topple height'.
         """
         while True:
             try:
-                response = input(prompt)
+                response = input(prompt + "\n")
                 nums = response.split(",")
 
                 # Check enough items in list
@@ -456,7 +456,7 @@ greater than or equal to the 'topple height'.
         # Game loop
         while True:
             try:
-                response = int(input(prompt))
+                response = int(input(prompt + "\n"))
                 if response in self.possible_actions:
                     return response
                 raise ValueError
@@ -479,7 +479,7 @@ greater than or equal to the 'topple height'.
         """
         while True:
             try:
-                response = input(prompt)
+                response = input(prompt + "\n")
                 response = response.strip().lower()
                 if response in valid_options:
                     return response
