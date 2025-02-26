@@ -101,6 +101,11 @@ When users enter '4' from the main menu, the user is presented with a friendly '
 
 The user can restart the program if they wish by pressing the **Run Program** button.
 
+# Possible Future Features
+
+Regular players may want the option to save their preferred game settings as the default, avoiding the need to manually adjust them each time. This can be easily achieved on a locally installed version (using a JSON file) but would require a login system for web-based play.
+
+Players may also want the option to randomise topple height and possible actions, adding variety and challenge to each session. In the 'Change Game Settings' section, users could simply type 'r' to indicate that they want the setting to be randomly assigned within the permitted range.
 
 # Deployment
 
