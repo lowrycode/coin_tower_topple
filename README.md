@@ -1,32 +1,22 @@
-![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
+# Coin Tower Topple
 
-Welcome,
+**Coin Tower Topple** is a 2-player game where players add coins to a tower until it gets too high and "topples". A player wins the game when their opponent causes the tower to topple.
 
-This is the Code Institute student template for deploying your third portfolio project, the Python command-line project. The last update to this file was: **May 14, 2024**
+![Coin Tower Topple](readme-images/coin-tower-topple.jpg)
 
-## Reminders
+The game makes use of a machine learning technique called **Reinforcement Learning**, specifically *Q-Learning*, to train an AI agent to learn the optimal moves to maximize its chances of winning.
 
-- Your code must be placed in the `run.py` file
-- Your dependencies must be placed in the `requirements.txt` file
-- Do not edit any of the other files or your code may not deploy properly
+The game is written in Python and played in a terminal window. It is deployed on Heroku using Code Institute's mock terminal. You can access the live game here: (**#### ADD LINK ####**).
 
-## Creating the Heroku app
+# Project Planning
 
-When you create the app, you will need to add two buildpacks from the _Settings_ tab. The ordering is as follows:
+The [**Project Planning**](project_planning.md) document outlines my personal goals for this project and includes flowcharts illustrating the code logic. I chose to create this game because:
+- It provided an opportunity to explore Reinforcement Learning techniques in machine learning.
+- My children and I have enjoyed playing a similar maths-based strategy game while walking to and from school!
 
-1. `heroku/python`
-2. `heroku/nodejs`
+# Target Audience
 
-You must then create a _Config Var_ called `PORT`. Set this to `8000`
+The target audience for this game is users who enjoy playing maths-based strategy games.
 
-If you have credentials, such as in the Love Sandwiches project, you must create another _Config Var_ called `CREDS` and paste the JSON into the value field.
+The game settings (*Difficulty Level*, *Topple Height*, and *Possible Actions*) can be adjusted to add variety and accommodate players of all skill levels.
 
-Connect your GitHub repository and deploy as normal.
-
-## Constraints
-
-The deployment terminal is set to 80 columns by 24 rows. That means that each line of text needs to be 80 characters or less otherwise it will be wrapped onto a second line.
-
----
-
-Happy coding!
