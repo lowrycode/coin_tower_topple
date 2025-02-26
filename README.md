@@ -99,7 +99,7 @@ When users enter '4' from the main menu, the user is presented with a friendly '
 
 ![Goodbye message displayed when quitting the game](readme-images/goodbye-message.jpg)
 
-The user can restart the program if the wish by pressing the **Run Program** button.
+The user can restart the program if they wish by pressing the **Run Program** button.
 
 
 # Deployment
@@ -168,3 +168,23 @@ In the **Deployment** tab, choose Github as deployment method, connect to the re
 ![Instructions for how to deploy app - part 2](readme-images/heroku-deploy-2.jpg)
 
 </details>
+
+# Forking and Cloning
+
+**Forking** refers to making a copy of the repository in your own Github account.
+
+To fork this repository:
+1. Log in to your Github account
+2. Navigate to the repository page, click the caret (down arrow) next to the fork button and choose **Create a new fork**.
+
+![Steps to fork the repository](readme-images/fork.jpg)
+
+**Cloning** a repository refers to making a copy on your local machine and is typically done after forking.
+
+To clone the repository (assuming you already have git installed on your machine):
+1. Navigate to the repository page, click on the **Code** button, ensure the **HTTPS** tab is selected in the dropdown and copy the url
+2. On your local machine, create the directory for the cloned repository
+3. Open up a terminal window (e.g. **Git Bash** or **Command Prompt** on windows) and navigate to the new directory
+4. Type **git clone [url]** (replacing [url] with the url address from step 1) and press Enter
+
+![Steps to clone the repository](readme-images/clone.jpg)
