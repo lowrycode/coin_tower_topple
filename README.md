@@ -20,6 +20,28 @@ The target audience for this game is users who enjoy playing maths-based strateg
 
 The game settings (*Difficulty Level*, *Topple Height*, and *Possible Actions*) can be adjusted to add variety and accommodate players of all skill levels.
 
+# User Experience
+
+The following contribute to a good user experience:
+
+## 1. **Intuitive Navigation:**
+- Menus are simple, with clear prompts and logical ordering.
+- Sections are clearly labelled to help the user to locate themselves easily
+- Users are prompted before leaving each section to make it clear that the activity has been completed
+- After visiting each section, the user 'returns' to the Main Menu
+
+## 2. **Clear and Consistent Formatting:**
+- Lines never exceed the maximum column width of 80 characters (so there is no text wrapping with normal usage)
+- Section labels have a consistent width
+- All user inputs are on a new line
+- Spacing is used to allow sections to 'breathe' and to separate different types of information
+
+## 3. **Error Handling and User Feedback:**
+- Invalid user inputs are managed effectively with supportive prompts stating how to input data in the correct format
+
+## 4. **Efficient Procedures:**
+- Processes, including AI training, run efficiently to minimize wait times.
+
 # Current Features
 
 ## Program Start and Main Menu Navigation
