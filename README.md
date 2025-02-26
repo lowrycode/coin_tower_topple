@@ -107,6 +107,27 @@ Regular players may want the option to save their preferred game settings as the
 
 Players may also want the option to randomise topple height and possible actions, adding variety and challenge to each session. In the 'Change Game Settings' section, users could simply type 'r' to indicate that they want the setting to be randomly assigned within the permitted range.
 
+# Technologies Used
+
+The code was written in **Visual Studio Code**  with the assistance of the *Flake8* linter extension.
+
+**Git** was used as the version control system and all commits were made to the main branch.
+
+**Github** was used to host the Git repository.
+
+<a href="https://www.heroku.com/" target="_blank" rel="noopener">**Heroku**</a> was used for deploying the website.
+
+The <a href="https://pep8ci.herokuapp.com/" target="_blank" rel="noopener">**CI Python Linter**</a> was used for validating the python code.
+
+The flow charts documenting the code logic were designed using <a href="https://www.drawio.com/" target="_blank" rel="noopener">**Draw.io**</a>. 
+
+# Python Packages
+
+The following python packages were used:
+- <a href="https://docs.python.org/3/library/sys.html" target="_blank" rel="noopener">**sys**</a> - to close the program when the user chooses 'Quit' from the Main Menu
+- <a href="https://docs.python.org/3/library/random.html" target="_blank" rel="noopener">**random**</a> - to generate random numbers and make random choices from a list
+- <a href="https://docs.python.org/3/library/pprint.html" target="_blank" rel="noopener">**pprint**</a> - to view q_values after training the AI during development (this dependency was removed before deployment)
+
 # Deployment
 
 The project was deployed using <a href="https://www.heroku.com/" target="_blank" rel="noopener">**Heroku**</a> using the following steps:
