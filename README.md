@@ -82,7 +82,9 @@ Once the user enters a valid action, the tower height is updated and the turn sw
 
 At the end of the game, the user is asked whether they wish to play the game again using the current game settings. If they choose 'n' (for no) then they will 'return' to the Main Menu. If they choose 'y' (for yes) then a new game will start. If they enter any other value, they will be presented with an error message and prompted to give a valid input.
 
-The image below shows what happens when a user enters 'yes', a null string and '1'.
+The image below shows what happens when a user enters 'yes', a whitespace and 'Y' (capital letter). 
+
+***NOTE:*** *To enhance the user experience, case sensitivity is not enforced here. As a result, the last user input is considered valid and a new game begins.*
 
 ![Input validation when choosing whether to replay the game](readme-images/end-of-game-validation.jpg)
 
@@ -103,7 +105,9 @@ The next image shows what happens when users enter a variety of invalid inputs:
 
 ![Change Game Settings page with invalid user inputs](readme-images/change-game-settings-invalid-input.jpg)
 
-***NOTE:*** *when entering the possible actions, the order of the numbers is automatically sorted from low to high (see last user input and the summary of the new game settings in the image above). This is done to make it clearer for the user but is also required by the `_play` method in the `CoinTowerTopple` class when checking whether the opponent is forced to topple the tower on their next move.*
+***NOTE:*** *When entering the possible actions list, the order of the numbers is automatically sorted from low to high (see last user input and the summary of the new game settings in the image above). This is done to make it clearer for the user but is also required by the `_play` method in the `CoinTowerTopple` class when checking whether the opponent is forced to topple the tower on their next move.*
+
+***NOTE:*** *When entering the possible actions list, any leading and/or trailing whitespaces for list items are allowed as these are removed as part of the validation process.*
 
 At the end of the process, the new game settings are shown and the user is prompted to 'return' to the main menu by pressing Enter.
 
@@ -149,6 +153,30 @@ The following python packages were used:
 - <a href="https://docs.python.org/3/library/sys.html" target="_blank" rel="noopener">**sys**</a> - to close the program when the user chooses 'Quit' from the Main Menu
 - <a href="https://docs.python.org/3/library/random.html" target="_blank" rel="noopener">**random**</a> - to generate random numbers and make random choices from a list
 - <a href="https://docs.python.org/3/library/pprint.html" target="_blank" rel="noopener">**pprint**</a> - to view q_values after training the AI during development (this dependency was removed before deployment)
+
+# Testing
+
+## Manual Tests
+
+Manual tests were carried out on the deployed version to ensure correct functionality.
+
+These tests included the following:
+
+### 1. Data Validation
+
+The following inputs were tested to ensure that all errors were handled correctly:
+- Empty
+- Whitespace
+- Case sensitivity
+- Integer inputs (within the accepted range and outside, including zero and negative numbers)
+- floats
+- strings of incorrect values (e.g. 'yes' rather than 'y')
+- strings of incorrect capitalisation
+- comma separated lists with less than two items
+- comma separated lists with duplicate values
+- comma separated lists unordered
+
+
 
 # Deployment
 

@@ -92,7 +92,7 @@ class CoinTowerTopple:
             except (KeyError, ValueError):
                 print(
                     "- INVALID ENTRY: "
-                    "must be a number between 1 and "
+                    "must be a whole number between 1 and "
                     f"{len(self.main_options)}\n"
                 )
             else:
@@ -374,7 +374,7 @@ greater than or equal to the 'topple height'.
             except ValueError:
                 print(
                     "- INVALID ENTRY: "
-                    f"number must be between {min} and {max}\n")
+                    f"must be a whole number between {min} and {max}\n")
 
     def _get_valid_int_list(self, prompt, min, max):
         """
@@ -397,7 +397,8 @@ greater than or equal to the 'topple height'.
                 if len(nums) < 2:
                     raise CustomError(
                         "- INVALID ENTRY: "
-                        "list must contain at least 2 numbers\n"
+                        "list must contain at least 2 numbers separated\n"
+                        "                 by commas\n"
                     )
 
                 # Convert to integers (or raise error)
