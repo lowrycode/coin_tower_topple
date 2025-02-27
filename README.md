@@ -156,19 +156,20 @@ The following python packages were used:
 
 # Testing
 
-## Manual Tests
+Manual tests were carried out throughout the development process after adding each new feature to check that it was working correctly. These tests included:
+- Checking error handling by changing the values of variables to simulate errors
+- validating user inputs and testing edge cases
+- Playing the game many times to check that the AI was making optimal decisions
 
-Manual tests were carried out on the deployed version to ensure correct functionality.
+These test were repeated later using the deployed version to check that the program still behaved in a consistent manner. Other people were involved in testing the deployed version to ensure that the game was intuitive and clear.
 
-These tests included the following:
+## 1. Input Validation Tests
 
-### 1. Data Validation
-
-The following inputs were tested to ensure that all errors were handled correctly:
-- Empty
-- Whitespace
-- Case sensitivity
-- Integer inputs (within the accepted range and outside, including zero and negative numbers)
+The following invalid inputs were tested to ensure that all errors were handled correctly:
+- Empty inputs
+- Whitespace inputs
+- Lower case and upper case inputs
+- Integers (outside the accepted range, including zero and negative numbers)
 - floats
 - strings of incorrect values (e.g. 'yes' rather than 'y')
 - strings of incorrect capitalisation
@@ -176,7 +177,117 @@ The following inputs were tested to ensure that all errors were handled correctl
 - comma separated lists with duplicate values
 - comma separated lists unordered
 
+The [Current Features](#current-features) section (above) illustrated the feedback prompts for many of these invalid entries.
 
+## 2. Analysing the Q-Values
+
+For certain game settings, a winning strategy can be easily deduced using simple mathematical logic. For example, if a game uses a topple height of `21` with a possible action list of `1,2,3`, the following logic could be applied.
+
+1. A player who can pass their opponent a tower of 20 coins has won the game (since their opponent will topple the tower on their next turn).
+
+2. It will always be possible to do this from a tower height of 19, 18, or 17 but not from 16.
+   - 19 (by adding 1)
+   - 18 (by adding 2)
+   - 17 (by adding 3)
+   - not 16 (since 4 is not one of the possible actions)
+
+3. If a player is passed a tower height of 16 they are very likely to lose because they will pass the tower back to their opponent at a height of either 17, 18 or 19 (which are all within the reach of a tower height of 20). Therefore, a player who is able to pass their opponent a tower of height 16 is guaranteed to win the game (assuming they apply the strategy).
+
+4. Similar logic can be applied by working backwards through the numbers and a pattern quickly emerges. Any player that can leave their opponent with a tower height of 4, 8, 12, 16 or 20 is guaranteed to win the game.
+
+Therefore, whoever wins the toss wins the game!
+
+But can the computer work this out? Let's have a look at the Q-table that is generated during training.
+
+The easiest way to check is to add this script to the end of the `train` method in the `AIPlayer` class.
+
+``` python
+for s in range(1, self.topple_height):
+    q_vals = [self.q_values[(s, a)] for a in self.possible_actions]
+    print(f"{s}: {q_vals}")
+```
+
+The output of this code will show the q values for each action as a list (in the order `1,2,3`) at each tower height. The q_values relate to the probability of leading to future reward (i.e. winning the game).
+
+The image below shows the q_values that were obtained during training with the game settings specified above. The output has been manually formatted to show the trends more clearly: the highest Q-value in each list has been emphasised (using a heavy font weight and underlined) to show which action the AI will choose when playing optimally.
+
+![Q-Values after AI has been trained for a particular game](readme-images/Q-values.jpg)
+
+It is clear from this data that the AI has indeed 'learned' the strategy.
+
+A similar exercise was carried out using a variety of game settings to check that the AI training is working as expected in different scenarios, including games with very large topple heights and very long lists of possible actions. These tests revealed that the AI was playing a sufficient number of games to calculate adequate q_values and also that the training process was still very rapid.
+
+Examples of Q-values obtained in some of these tests, alongside the rationale for choosing to use 10,000 training games can be found in the [**Analysis of Q-Values**](analysis_of_q_values.md) document.
+
+## 3. Code Validation
+
+The python code was written in vscode with the Flake8 extension turned on. This ensured that the code was formatted according to the PEP 8 conventions.
+
+I also checked the code using the <a href="https://pep8ci.herokuapp.com/" target="_blank" rel="noopener">**CI Python Linter**</a> which presented no errors or warnings for either of the python files.
+
+**Validation of run.py**
+
+![Validation of run.py](readme-images/validation_run.jpg)
+
+**Validation of coin_tower_topple.py**
+
+![Validation of coin_tower_topple.py](readme-images/validation_coin_tower_topple.jpg)
+
+## 4. Bug Fixes
+
+The most common bug introduced during development was failing to properly handle missing keys in the `q_values` dictionary, which uses `(state, action)` tuples as keys.
+
+For instance, when the tower height reaches or exceeds the topple height, the game is over, so there's no need to store a value representing the probability of a future reward. In such cases, attempting to access a missing key would result in a `KeyError`.
+
+This was easily resolved by using the `.get()` method, which provides a fallback value when a key is not found.
+
+For example:
+
+``` python
+# This would cause a KeyError if the key doesn't exist
+current_q_value = self.q_values[(state, action)]
+
+# Using .get() returns a default value of zero instead
+current_q_value = self.q_values.get((state, action), 0)
+```
+
+The other significant bug related to how errors were handled in the `_run_main_menu()` method. Early on in development, the callback functions were called within the `try` block.
+
+``` python
+# Main Menu Event Loop ...
+while True:
+    try:
+        # User input and validation goes here ...
+        # ...
+        
+        # Callback methods were (wrongly) executed here
+        self.main_options[response][1]()
+
+    except (KeyError, ValueError):
+        # error handling goes here ...
+```
+
+The issue with this approach was that any unhandled runtime errors within a callback function would propagate up to `_run_main_menu()` and be masked by the generic except block. This made debugging difficult, especially for `KeyError` bugs like the ones described earlier.
+
+To fix this, the callback method was moved outside the `try` block and placed in an `else` block instead:
+
+``` python
+# Main Menu Event Loop ...
+while True:
+    try:
+        # User input and validation goes here ...
+        # ...
+
+    except (KeyError, ValueError):
+        # error handling goes here ...
+    else:
+        # Callback methods are now executed here
+        self.main_options[response][1]()
+```
+
+This ensures that only input-related errors are caught, while unexpected errors inside the callback functions remain visible for debugging.
+
+There are no unresolved bugs in the deployed version.
 
 # Deployment
 
