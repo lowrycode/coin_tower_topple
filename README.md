@@ -133,6 +133,70 @@ Regular players may want the option to save their preferred game settings as the
 
 Players may also want the option to randomise topple height and possible actions, adding variety and challenge to each session. In the 'Change Game Settings' section, users could simply type 'r' to indicate that they want the setting to be randomly assigned within the permitted range.
 
+# Python Code
+
+The aim of this project was to build a command-line application using Python. Therefore, this section gives special consideration to the Python code itself. The [**Project Planning**](project_planning.md) document summarised my goals in demonstrating best coding practices with regards to *readability*, *maintainability* and *logic* so the code will be considered under these three headings.
+
+## Readability
+
+The code follows standard Python conventions (<a href="https://peps.python.org/pep-0008/" target="_blank" rel="noopener">PEP 8</a>). For example:
+
+- **Code Indentation:** Uses 4 spaces consistently for improved readability.
+- **Maximum Line Length:** Lines do not exceed 79 characters.
+- **Blank Lines:**
+  - Two blank lines before top-level function and class definitions.
+  - One blank line between methods inside a class.
+- **Imports:** Each import is on a separate line at the top of the file.
+- **String Quotes:** Uses double quotes consistently, including for triple-quoted strings.
+- **Whitespaces:**
+  - Avoids trailing whitespaces and unnecessary spaces in empty lines.
+  - Uses spaces after commas (e.g., in lists).
+- **Naming Conventions:** Uses meaningful and standardized names:
+  - **Variables & Functions:** Follow snake_case (e.g., calculate_score).
+  - **Constants:** Use UPPER_CASE (e.g., DIFFICULTY_LEVEL_MAP).
+  - **Classes:** Use PascalCase (e.g., CusomError, CoinTowerTopple).
+  - **Non-Public Methods:** Prefix with a single underscore (e.g., _validate_input).
+- **F-Strings:** Uses f-strings (f"{placeholder}") instead of string concatenation.
+- **List Comprehensions:** Preferred over the more verbose `for` loop approach (in simple cases)
+- **Comments:** clearly and concisely explain aspects of the code logic
+- **Docstrings:** Document all main functions and helper functions to improve readability and maintainability.
+
+These practices ensure that the code is clean, readable, and easily maintainable by other Python developers.
+
+## Maintainability
+
+In addition to the aspects described above, the following factors contribute to the code’s maintainability and extensibility.
+
+### Code Structure and Modularity
+
+The code adopts an object-oriented approach which encapsulates functionalities within separate classes
+- **CoinTowerTopple:** manages game logic (including user input)
+- **AIPlayer:** all AI logic is handled by this class
+- **CustomError:** allows for more descriptive error messages when handling input validation
+
+Methods within these classes follow the *Single Responsibility Principle* and are therefore reusable across the application. They are categorised and organised based on their purpose.
+
+### File Structure and Imports
+
+Rather than writing these classes directly within the run.py file, they are imported from a separate (coin_tower_topple.py) file. This ensures a good separation of concerns and allows for the functionalities to be reused elsewhere.
+
+No third-party libraries were used, as they were deemed unnecessary for the scope of the project and would introduce additional dependencies, potentially impacting maintainability and simplicity.
+
+### Scalability and Flexibility
+
+The code was written with extensibility in mind. For example, the Main Menu is dynamically generated from a `dictionary` which means that new menu options can be easily added in the future without disrupting existing functionality.
+
+Functions allow for flexibility in how they are used. For example, the `choose_action` method in the `AIPlayer` class makes use of the `explore_fraction` parameter to control the level of randomness in decision making. This means that the same function can be used for playing games at varying levels of difficulty and also when training the AI before the game.
+- `explore_fraction=0`: used when training the AI (predicting the opponents next move) and playing games on the highest difficulty setting
+- `explore_fraction=1`: used when training the AI (to ensure all state/action combinations are tested)
+- `explore_fraction=0.33` and `explore_fraction=0.66`: used during game play on *Easy* and *Medium* difficulty level settings respectively
+
+Another example of the flexibility afforded by the code structure can be seen in considering the game settings which are initialised within the `CoinTowerTopple` class. These settings can be easily modified, allowing users to customise the game to their preferences.
+
+## Code Logic
+
+Perhaps the most interesting aspect of the project relates to how to train the AI so that it "learns" how to win the game. The project makes use of a **Reinforcement Learning** technique called *Q-Learning*. See [**here**](training_the_ai.md) for a more detailed discussion of how this was implemented.
+
 # Technologies Used
 
 The code was written in **Visual Studio Code**  with the assistance of the *Flake8* linter extension.
@@ -158,7 +222,7 @@ The following python packages were used:
 
 Manual tests were carried out throughout the development process after adding each new feature to check that it was working correctly. These tests included:
 - Checking error handling by changing the values of variables to simulate errors
-- validating user inputs and testing edge cases
+- Validating user inputs and testing edge cases
 - Playing the game many times to check that the AI was making optimal decisions
 
 These test were repeated later using the deployed version to check that the program still behaved in a consistent manner. Other people were involved in testing the deployed version to ensure that the game was intuitive and clear.
