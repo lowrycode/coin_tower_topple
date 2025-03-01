@@ -1,14 +1,16 @@
 # Training the AI
 
-## Reinforcement Learning?
+## Theoretical Foundations of AI Learning
+
+### Reinforcement Learning?
 
 This project makes use of a machine learning approach called **Reinforcement Learning** (RL), in which an AI agent learns to make optimal decisions by interacting with its environment. The agent takes actions, receives feedback (in the form of rewards or penalties), and adjusts its strategy over time to maximise cumulative rewards.
 
-## Q-Learning
+### Q-Learning
 
-**Q-Learning** is a type of Reinforcement Learning that follows a model-free approach, meaning the AI agent doesn't need any prior knowledge of the environment. Instead, it learns an optimal policy by exploring predefined possible actions and updating values in a **Q-table** based on the feedback it receives. These values, called **Q-values**, estimate the expected cumulative reward for taking a specific action in a given state.
+**Q-Learning** is a type of Reinforcement Learning that follows a model-free approach, meaning the AI agent doesn't need any prior knowledge of the environment. Instead, it learns an optimal *policy* by exploring predefined possible actions and updating values in a **Q-table** based on the feedback it receives. These values, called **Q-values**, estimate the expected cumulative reward for taking a specific action in a given state.
 
-## How This Applies to the Game
+### How This Applies to the Game
 
 - The **agent**: The AI making decisions about how many coins to add to the tower.
 - The **environment**: The tower itself, where:
@@ -18,7 +20,7 @@ This project makes use of a machine learning approach called **Reinforcement Lea
   - A **penalty** if its action causes the tower to reach or exceed the Topple Height.
   - A **reward** if its action forces the opponent into a situation where they must exceed the Topple Height on their turn.
 
-## What the Q-Table Looks Like
+### What the Q-Table Looks Like
 
 The Q-table holds a Q-value for each possible state-action combination. 
 
@@ -78,6 +80,39 @@ q_values = {
 }
 ```
 
-## How to Update Q-Values
+### How to Update Q-Values
 
-There are two common approaches to updating Q-values:
+Initially, a default Q-value of zero is assigned to each of the possible state/action combinations. The Q-values are updated incrementally using an approach called **temporal difference learning**. This method, based on Bellman's equation, updates Q-values by calculating the *difference* between the *current estimated reward* and the *future estimated reward*.
+
+A simplistic way of representing this approach can be expressed using the following formula:
+
+***Q(s,a) ← current estimate + α (future estimate - current estimate)***
+
+where:
+- ***Q(s,a)*** is the *Q-value* (or more strictly the Q-function that returns this value) for state ***s*** and action ***a***
+- ***current estimate*** is the current Q-value ***Q(s,a)***
+- ***future estimate*** which takes into account the current reward obtained by taking action ***a*** and the Q-value for the best action in the next state ***Q(s',a')***
+- **α** is the learning rate which controls how much new information influences the update
+  - `α=1`: The update is based only on new experiences (ignoring past experiences)
+  - `α=0`: The Q-value is based only on past experiences and therefore never changes (since new experiences are ignored)
+
+The same formula could be expressed more precisely as:
+
+***Q(s,a) ← Q(s,a) + α (r + γ max Q(s',a') - Q(s,a))***
+
+where ***r + γ max Q(s',a')*** is the future estimated reward.
+- ***r*** is the **immediate reward** and can be assigned:
+  - a **positive value** if the action led to **winning** the game
+  - a **negative value** if the action led to **losing** the game
+  - **zero** if the action did neither of the above
+- ***γ*** is the discount factor and allows for further control as to how much weight is given to future rewards:
+  - `𝛾=0`: The agent only considers the immediate reward ***r***
+  - `γ=1`: The agent values future rewards just as much as immediate rewards
+
+### Taking the Opponent Into Account
+
+It took me a while to realise that when calculating the expected future reward, the immediate next state will be played by the opponent. Therefore, it is not desirable to update the current Q-value based on the opponent's next state but rather the state that follows that one.
+
+In other words, rather than calculating the future reward using ***r + γ max Q(s',a')***, we need to consider the state after that. I like to think of it as a desire to calculate ***r + γ max Q(s'',a'')*** where ***s''*** is the state that the opponent will pass back to the AI and ***max Q(s'',a'')*** is the highest Q-value for all possible actions in that new state.
+
+In order to achieve this, the assumption was made that the opponent would always play optimally by choosing the action with the highest Q-value out of all the possible actions.
