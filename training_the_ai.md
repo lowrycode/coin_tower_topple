@@ -41,9 +41,9 @@ For example, if the game used a **Topple Height** of `11` with a **Possible Acti
 
 ***NOTE:*** *There is no need to record values for expected future reward for states greater than or equal to the Topple Height as the game is now over*
 
-The same Q-table can be represented with a Python `dictionary` where:
-- **Key:** A `(state, action)` **tuple**
-- **Value:** The **Q-value**
+The same Q-table can be represented with a Python `dictionary` where the:
+- **key** is a `(state, action)` **tuple**
+- **value** is the **Q-value**
 
 ``` python
 q_values = {
@@ -94,7 +94,7 @@ where:
 - ***future estimate*** which takes into account the current reward obtained by taking action ***a*** and the Q-value for the best action in the next state ***Q(s',a')***
 - **α** is the learning rate which controls how much new information influences the update
   - `α=1`: The update is based only on new experiences (ignoring past experiences)
-  - `α=0`: The Q-value is based only on past experiences and therefore never changes (since new experiences are ignored)
+  - `α=0`: The Q-value is based only on past experiences and would therefore never be updated (since new experiences are ignored)
 
 The same formula could be expressed more precisely as:
 
