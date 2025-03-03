@@ -16,7 +16,7 @@ The [**Project Planning**](project_planning.md) document outlines my personal go
 
 # Target Audience
 
-The target audience for this game is users who enjoy playing maths-based strategy games.
+The target audience for the game is primarily users who enjoy playing maths-based strategy games.
 
 The game settings (*Difficulty Level*, *Topple Height*, and *Possible Actions*) can be adjusted to add variety and accommodate players of all skill levels.
 
@@ -26,7 +26,7 @@ The following contribute to a good user experience:
 
 ## 1. **Intuitive Navigation:**
 - Menus are simple, with clear prompts and logical ordering.
-- Sections are clearly labelled to help the user to locate themselves easily
+- Sections are clearly labelled to help the user locate themselves easily
 - Users are prompted before leaving each section to make it clear that the activity has been completed
 - After visiting each section, the user 'returns' to the Main Menu
 
@@ -40,7 +40,7 @@ The following contribute to a good user experience:
 - Invalid user inputs are managed effectively with supportive prompts stating how to input data in the correct format
 
 ## 4. **Efficient Procedures:**
-- Processes, including AI training, run efficiently to minimize wait times.
+- Processes, including AI training, run efficiently to minimise wait times.
 
 # Current Features
 
@@ -93,8 +93,8 @@ The image below shows what happens when a user enters 'yes', a whitespace and 'Y
 ## Change Game Settings
 
 When users enter '2' from the main menu, the program will take the user to the Game Settings 'page'. The user is presented with a title banner ('Change Game Settings') and sequentially guided through changing the:
-1. Difficult level
-2. Toggle height
+1. Difficulty level
+2. Topple height
 3. Possible actions.
 
 The image below shows what happens when the user enters all valid inputs:
@@ -154,11 +154,11 @@ The code follows standard Python conventions (<a href="https://peps.python.org/p
 - **Naming Conventions:** Uses meaningful and standardized names:
   - **Variables & Functions:** Follow snake_case (e.g., calculate_score).
   - **Constants:** Use UPPER_CASE (e.g., DIFFICULTY_LEVEL_MAP).
-  - **Classes:** Use PascalCase (e.g., CusomError, CoinTowerTopple).
+  - **Classes:** Use PascalCase (e.g., CustomError, CoinTowerTopple).
   - **Non-Public Methods:** Prefix with a single underscore (e.g., _validate_input).
 - **F-Strings:** Uses f-strings (f"{placeholder}") instead of string concatenation.
-- **List Comprehensions:** Preferred over the more verbose `for` loop approach (in simple cases)
-- **Comments:** clearly and concisely explain aspects of the code logic
+- **List Comprehensions:** Preferred over the more verbose `for` loop approach (in simple cases).
+- **Comments:** clearly and concisely explain aspects of the code logic.
 - **Docstrings:** Document all main functions and helper functions to improve readability and maintainability.
 
 These practices ensure that the code is clean, readable, and easily maintainable by other Python developers.
@@ -187,9 +187,9 @@ No third-party libraries were used, as they were deemed unnecessary for the scop
 The code was written with extensibility in mind. For example, the Main Menu is dynamically generated from a `dictionary` which means that new menu options can be easily added in the future without disrupting existing functionality.
 
 Functions allow for flexibility in how they are used. For example, the `choose_action` method in the `AIPlayer` class makes use of the `explore_fraction` parameter to control the level of randomness in decision making. This means that the same function can be used for playing games at varying levels of difficulty and also when training the AI before the game.
-- `explore_fraction=0`: used when training the AI (predicting the opponents next move) and playing games on the highest difficulty setting
-- `explore_fraction=1`: used when training the AI (to ensure all state/action combinations are tested)
-- `explore_fraction=0.33` and `explore_fraction=0.66`: used during game play on *Easy* and *Medium* difficulty level settings respectively
+- `explore_fraction=0`: Used when training the AI (predicting the opponents next move) and playing games on the highest difficulty setting.
+- `explore_fraction=1`: Used when training the AI (to ensure all state/action combinations are tested).
+- `explore_fraction=0.33` and `explore_fraction=0.66`: Used during game play on *Easy* and *Medium* difficulty level settings respectively.
 
 Another example of the flexibility afforded by the code structure can be seen in considering the game settings which are initialised within the `CoinTowerTopple` class. These settings can be easily modified, allowing users to customise the game to their preferences.
 
@@ -207,13 +207,13 @@ The code was written in **Visual Studio Code**  with the assistance of the *Flak
 
 <a href="https://www.heroku.com/" target="_blank" rel="noopener">**Heroku**</a> was used for deploying the website.
 
-The <a href="https://pep8ci.herokuapp.com/" target="_blank" rel="noopener">**CI Python Linter**</a> was used for validating the python code.
+The <a href="https://pep8ci.herokuapp.com/" target="_blank" rel="noopener">**CI Python Linter**</a> was used for validating the Python code.
 
 The flow charts documenting the code logic were designed using <a href="https://www.drawio.com/" target="_blank" rel="noopener">**Draw.io**</a>. 
 
 # Python Packages
 
-The following python packages were used:
+The following Python packages were used:
 - <a href="https://docs.python.org/3/library/sys.html" target="_blank" rel="noopener">**sys**</a> - to close the program when the user chooses 'Quit' from the Main Menu
 - <a href="https://docs.python.org/3/library/random.html" target="_blank" rel="noopener">**random**</a> - to generate random numbers and make random choices from a list
 - <a href="https://docs.python.org/3/library/pprint.html" target="_blank" rel="noopener">**pprint**</a> - to view q_values after training the AI during development (this dependency was removed before deployment)
@@ -225,7 +225,7 @@ Manual tests were carried out throughout the development process after adding ea
 - Validating user inputs and testing edge cases
 - Playing the game many times to check that the AI was making optimal decisions
 
-These test were repeated later using the deployed version to check that the program still behaved in a consistent manner. Other people were involved in testing the deployed version to ensure that the game was intuitive and clear.
+These tests were repeated later using the deployed version to check that the program still behaved in a consistent manner. Other people were involved in testing the deployed version to ensure that the game was intuitive and clear.
 
 ## 1. Input Validation Tests
 
@@ -285,9 +285,9 @@ Examples of Q-values obtained in some of these tests, alongside the rationale fo
 
 ## 3. Code Validation
 
-The python code was written in vscode with the Flake8 extension turned on. This ensured that the code was formatted according to the PEP 8 conventions.
+The Python code was written in VS Code with the Flake8 extension turned on. This ensured that the code was formatted according to the PEP 8 conventions.
 
-I also checked the code using the <a href="https://pep8ci.herokuapp.com/" target="_blank" rel="noopener">**CI Python Linter**</a> which presented no errors or warnings for either of the python files.
+I also checked the code using the <a href="https://pep8ci.herokuapp.com/" target="_blank" rel="noopener">**CI Python Linter**</a> which presented no errors or warnings for either of the Python files.
 
 **Validation of run.py**
 
@@ -351,7 +351,7 @@ while True:
 
 This ensures that only input-related errors are caught, while unexpected errors inside the callback functions remain visible for debugging.
 
-There are no unresolved bugs in the deployed version.
+No known bugs remain in the deployed version.
 
 # Deployment
 
