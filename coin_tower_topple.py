@@ -572,7 +572,9 @@ class AIPlayer:
                 # Get reward for updating q_value[(state, action)]
                 if next_state >= self.topple_height:
                     reward = -1  # lost game
-                elif self.possible_actions[0] >= self.topple_height:
+                elif (
+                    next_state + self.possible_actions[0] >= self.topple_height
+                ):
                     # considers smallest action only (for greater efficiency)
                     reward = 1  # forced opponent to lose on next turn
                 else:
