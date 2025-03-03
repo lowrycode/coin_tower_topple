@@ -181,7 +181,7 @@ As discussed above, the formula used to update Q-values can be written as follow
 
 ***Q(s,a) ← Q(s,a) + α (r + γ max Q(s',a') - Q(s,a))***
 
-This formula is implemented within the `_update_q_value` method using the following python statement:
+This formula is implemented within the `_update_q_value` method using the following Python statement:
 
 ``` python
 current_q_value += LEARNING_RATE * (reward + (DISCOUNT * expected_future_reward) - current_q_value)
