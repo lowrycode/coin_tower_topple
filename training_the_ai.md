@@ -24,7 +24,7 @@ This project makes use of a machine learning approach called **Reinforcement Lea
 
 The Q-table holds a Q-value for each possible state-action combination. 
 
-For example, if the game used a **Topple Height** of `11` with a **Possible Actions** list of `1,2,3`, the Q-Table would look something like this:
+For example, if the game uses a **Topple Height** of `11` with a **Possible Actions** list of `1,2,3`, the Q-Table would look something like this:
 
 | State | Action 1 | Action 2 | Action 3 |
 | ----- | ----- | ----- | ----- | 
@@ -82,7 +82,7 @@ q_values = {
 
 ### How to Update Q-Values
 
-Initially, a default Q-value of zero is assigned to each of the possible state/action combinations. The Q-values are updated incrementally using an approach called **temporal difference learning**. This method, based on Bellman's equation, updates Q-values by calculating the *difference* between the *current estimated reward* and the *future estimated reward*.
+Initially, a default Q-value of zero is assigned to each of the possible state-action combinations. The Q-values are updated incrementally using an approach called **temporal difference learning**. This method, based on Bellman's equation, updates Q-values by calculating the *difference* between the *current estimated reward* and the *future estimated reward*.
 
 A simplistic way of representing this approach can be expressed using the following formula:
 
@@ -175,7 +175,7 @@ To control which strategy is applied in a given context, the `choose_action` met
 - `explore_fraction = 0`: Use for **full exploitation**
 - `explore_fraction = 0.8`: 80% chance of **exploration**, 20% chance of **exploitation**
 
-In the context of training the AI, `explore_fraction = 1` ensures that all possible state/action combinations are considered. However, when updating Q-values, `explore_fraction = 0` is used to predict what the opponent's next move will be, assuming they are playing optimally.
+In the context of training the AI, `explore_fraction = 1` ensures that all possible state-action combinations are considered. However, when updating Q-values, `explore_fraction = 0` is used to predict what the opponent's next move will be, assuming they are playing optimally.
 
 When applying the exploitation strategy, it will sometimes be the case that multiple actions have the same highest Q-value. To ensure that Q-values are calculated accurately over time, it is important that there is no bias introduced (e.g. by always choosing the first of these) so the method ensures that a random choice is made between these equally good actions.
 

@@ -1,10 +1,10 @@
 # Coin Tower Topple
 
-**Coin Tower Topple** is a 2-player game where players add coins to a tower until it gets too high and "topples". A player wins the game when their opponent causes the tower to topple.
+**Coin Tower Topple** is a 2-player game where players add coins to a tower until it gets too high and 'topples'. A player wins the game when their opponent causes the tower to topple.
 
 ![Coin Tower Topple](readme-images/coin-tower-topple.jpg)
 
-The game makes use of a machine learning technique called **Reinforcement Learning**, specifically *Q-Learning*, to train an AI agent to learn the optimal moves to maximize its chances of winning.
+The game makes use of a machine learning technique called **Reinforcement Learning**, specifically *Q-Learning*, to train an AI agent to learn the optimal moves to maximise its chances of winning.
 
 The game is written in Python and played in a terminal window. It is deployed on Heroku using Code Institute's mock terminal. You can access the live game <a href="https://coin-tower-topple-754aefe8d2c6.herokuapp.com/" target="_blank" rel="noopener">**here**</a>.
 
@@ -139,7 +139,7 @@ The aim of this project was to build a command-line application using Python. Th
 
 ## Readability
 
-The code follows standard Python conventions (<a href="https://peps.python.org/pep-0008/" target="_blank" rel="noopener">PEP 8</a>). For example:
+The code follows standard Python conventions (<a href="https://peps.python.org/pep-0008/" target="_blank" rel="noopener">**PEP 8**</a>). For example:
 
 - **Code Indentation:** Uses 4 spaces consistently for improved readability.
 - **Maximum Line Length:** Lines do not exceed 79 characters.
@@ -151,7 +151,7 @@ The code follows standard Python conventions (<a href="https://peps.python.org/p
 - **Whitespaces:**
   - Avoids trailing whitespaces and unnecessary spaces in empty lines.
   - Uses spaces after commas (e.g., in lists).
-- **Naming Conventions:** Uses meaningful and standardized names:
+- **Naming Conventions:** Uses meaningful and standardised names:
   - **Variables & Functions:** Follow snake_case (e.g., calculate_score).
   - **Constants:** Use UPPER_CASE (e.g., DIFFICULTY_LEVEL_MAP).
   - **Classes:** Use PascalCase (e.g., CustomError, CoinTowerTopple).
@@ -188,14 +188,14 @@ The code was written with extensibility in mind. For example, the Main Menu is d
 
 Functions allow for flexibility in how they are used. For example, the `choose_action` method in the `AIPlayer` class makes use of the `explore_fraction` parameter to control the level of randomness in decision making. This means that the same function can be used for playing games at varying levels of difficulty and also when training the AI before the game.
 - `explore_fraction=0`: Used when training the AI (predicting the opponents next move) and playing games on the highest difficulty setting.
-- `explore_fraction=1`: Used when training the AI (to ensure all state/action combinations are tested).
+- `explore_fraction=1`: Used when training the AI (to ensure all state-action combinations are tested).
 - `explore_fraction=0.33` and `explore_fraction=0.66`: Used during game play on *Easy* and *Medium* difficulty level settings respectively.
 
 Another example of the flexibility afforded by the code structure can be seen in considering the game settings which are initialised within the `CoinTowerTopple` class. These settings can be easily modified, allowing users to customise the game to their preferences.
 
-## Code Logic
+## Logic
 
-Perhaps the most interesting aspect of the project relates to how to train the AI so that it "learns" how to win the game. The project makes use of a **Reinforcement Learning** technique called *Q-Learning*. See [**here**](training_the_ai.md) for a more detailed discussion of how this was implemented.
+Perhaps the most interesting aspect of the project relates to how to train the AI so that it 'learns' how to win the game. The project makes use of a **Reinforcement Learning** technique called *Q-Learning*. See [**here**](training_the_ai.md) for a more detailed discussion of how this was implemented.
 
 # Technologies Used
 
@@ -220,7 +220,7 @@ The following Python packages were used:
 
 # Testing
 
-Manual tests were carried out throughout the development process after adding each new feature to check that it was working correctly. These tests included:
+Manual tests were carried out throughout the development process after adding each new feature to check that it worked correctly. These tests included:
 - Checking error handling by changing the values of variables to simulate errors
 - Validating user inputs and testing edge cases
 - Playing the game many times to check that the AI was making optimal decisions
@@ -234,12 +234,12 @@ The following invalid inputs were tested to ensure that all errors were handled 
 - Whitespace inputs
 - Lower case and upper case inputs
 - Integers (outside the accepted range, including zero and negative numbers)
-- floats
-- strings of incorrect values (e.g. 'yes' rather than 'y')
-- strings of incorrect capitalisation
-- comma separated lists with less than two items
-- comma separated lists with duplicate values
-- comma separated lists unordered
+- Floating point values
+- Strings of incorrect values (e.g. 'yes' rather than 'y')
+- Strings of incorrect capitalisation
+- Comma separated lists with less than two items
+- Comma separated lists with duplicate values
+- Comma separated lists unordered
 
 The [Current Features](#current-features) section (above) illustrated the feedback prompts for many of these invalid entries.
 
@@ -281,11 +281,11 @@ It is clear from this data that the AI has indeed 'learned' the strategy.
 
 A similar exercise was carried out using a variety of game settings to check that the AI training is working as expected in different scenarios, including games with very large topple heights and very long lists of possible actions. These tests revealed that the AI was playing a sufficient number of games to calculate adequate q_values and also that the training process was still very rapid.
 
-Examples of Q-values obtained in some of these tests, alongside the rationale for choosing to use 10,000 training games can be found in the [**Analysis of Q-Values**](analysis_of_q_values.md) document.
+Examples of Q-values obtained in some of these tests, alongside the rationale for choosing to use 10,000 training games, can be found in the [**Analysis of Q-Values**](analysis_of_q_values.md) document.
 
 ## 3. Code Validation
 
-The Python code was written in VS Code with the Flake8 extension turned on. This ensured that the code was formatted according to the PEP 8 conventions.
+The Python code was written in **VS Code** with the *Flake8* extension turned on. This ensured that the code was formatted according to the <a href="https://peps.python.org/pep-0008/" target="_blank" rel="noopener">**PEP 8**</a> conventions.
 
 I also checked the code using the <a href="https://pep8ci.herokuapp.com/" target="_blank" rel="noopener">**CI Python Linter**</a> which presented no errors or warnings for either of the Python files.
 
@@ -303,7 +303,7 @@ The most common bug introduced during development was failing to properly handle
 
 For instance, when the tower height reaches or exceeds the topple height, the game is over, so there's no need to store a value representing the probability of a future reward. In such cases, attempting to access a missing key would result in a `KeyError`.
 
-This was easily resolved by using the `.get()` method, which provides a fallback value when a key is not found.
+This was easily resolved using the `.get()` method, which provides a fallback value when a key is not found.
 
 For example:
 
@@ -442,7 +442,7 @@ To clone the repository (assuming you already have git installed on your machine
 
 # Credits
 
-This <a href="https://www.youtube.com/watch?v=-g0iJjnO2_w" target="_blank" rel="noopener">**YouTube video**</a> by **Harvard University** was particularly informative and inspirational when considering the focus for this project. The video provides an excellent introduction to machine learning with a section on Q-learning (starting at 1:19:56) which clearly explains the intuition behind the process. The section also demonstrates how Q-learning can be applied to a game called Nim; this demonstration was particularly inspirational due to the similarities between that game and Coin Tower Topple.
+This <a href="https://www.youtube.com/watch?v=-g0iJjnO2_w" target="_blank" rel="noopener">**YouTube video**</a> by **Harvard University** was particularly informative and inspirational when considering the focus for this project. The video provides an excellent introduction to machine learning with a section on Q-learning (starting at <a href="https://www.youtube.com/watch?v=-g0iJjnO2_w&t=1h19m56s" target="_blank" rel="noopener">**1:19:56**</a>) which clearly explains the intuition behind the process. The section also demonstrates how Q-learning can be applied to a game called Nim; this demonstration was particularly inspirational due to the similarities between that game and Coin Tower Topple.
 
 The following resources were helpful in giving further information about Q-learning:
 - This <a href="https://www.simplilearn.com/tutorials/machine-learning-tutorial/what-is-q-learning" target="_blank" rel="noopener">**article**</a> was useful in defining the terms that are commonly used.
@@ -450,7 +450,7 @@ The following resources were helpful in giving further information about Q-learn
 - This <a href="https://eitca.org/artificial-intelligence/eitc-ai-arl-advanced-reinforcement-learning/deep-reinforcement-learning/function-approximation-and-deep-reinforcement-learning/examination-review-function-approximation-and-deep-reinforcement-learning/what-is-the-bellman-equation-and-how-is-it-used-in-the-context-of-temporal-difference-td-learning-and-q-learning/" target="_blank" rel="noopener">**article**</a> helped to clarify the relationship between *Bellman's Equation* and *Temporal Difference*.
 
 Other helpful resources included:
-- This <a href="https://realpython.com/documenting-python-code/" target="_blank" rel="noopener">**article**</a> by **James Mertz** gives really useful information about docstrings and best practices for documenting code.
+- This <a href="https://realpython.com/documenting-python-code/" target="_blank" rel="noopener">**article**</a> by **James Mertz** which gives really useful information about docstrings and best practices for documenting code.
 
 # Acknowledgments
 

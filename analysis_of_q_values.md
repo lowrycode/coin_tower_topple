@@ -1,4 +1,4 @@
-# Analysis of Q-Values After Training AI
+# Analysis of Q-Values
 
 The data below presents the Q-values obtained after training the AI under various game settings, each played 10,000 times.
 
@@ -271,7 +271,7 @@ Possible Actions: **1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20**
 99: [-1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0]
 ```
 
-**Note:** The data above suggest that the Q-values have not fully converged to their equilibrium values within 10,000 training games due to the vast number of state/action combinations. However, they are sufficiently accurate to enable optimal gameplay. Doubling the number of training games improves accuracy slightly but also increases the training time without enhancing the AI’s decision-making.
+**Note:** The data above suggests that the Q-values have not fully converged to their equilibrium values within 10,000 training games due to the vast number of state-action combinations. However, they are sufficiently accurate to enable optimal gameplay. Doubling the number of training games improves accuracy slightly but also increases the training time without enhancing the AI’s decision-making.
 
 Therefore, I chose to use 10,000 training games in the final deployed version.
 
