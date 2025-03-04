@@ -439,3 +439,19 @@ To clone the repository (assuming you already have git installed on your machine
 4. Type **git clone [url]** (replacing [url] with the url address from step 1) and press Enter
 
 ![Steps to clone the repository](readme-images/clone.jpg)
+
+# Credits
+
+This <a href="https://www.youtube.com/watch?v=-g0iJjnO2_w" target="_blank" rel="noopener">**YouTube video**</a> by **Harvard University** was particularly informative and inspirational when considering the focus for this project. The video provides an excellent introduction to machine learning with a section on Q-learning (starting at 1:19:56) which clearly explains the intuition behind the process. The section also demonstrates how Q-learning can be applied to a game called Nim; this demonstration was particularly inspirational due to the similarities between that game and Coin Tower Topple.
+
+The following resources were helpful in giving further information about Q-learning:
+- This <a href="https://www.simplilearn.com/tutorials/machine-learning-tutorial/what-is-q-learning" target="_blank" rel="noopener">**article**</a> was useful in defining the terms that are commonly used.
+- This <a href="https://www.geeksforgeeks.org/q-learning-in-python/" target="_blank" rel="noopener">**article**</a> on the **geeksforgeeks** website was helpful in summarising the main components of Q-learning and illustrated a possible Python implementation. However, it implied that *Temporal Difference* and *Bellman's Equation* were distinct approaches to updating Q-values and therefore introduced some confusion on this point.
+- This <a href="https://eitca.org/artificial-intelligence/eitc-ai-arl-advanced-reinforcement-learning/deep-reinforcement-learning/function-approximation-and-deep-reinforcement-learning/examination-review-function-approximation-and-deep-reinforcement-learning/what-is-the-bellman-equation-and-how-is-it-used-in-the-context-of-temporal-difference-td-learning-and-q-learning/" target="_blank" rel="noopener">**article**</a> helped to clarify the relationship between *Bellman's Equation* and *Temporal Difference*.
+
+Other helpful resources included:
+- This <a href="https://realpython.com/documenting-python-code/" target="_blank" rel="noopener">**article**</a> by **James Mertz** gives really useful information about docstrings and best practices for documenting code.
+
+# Acknowledgments
+
+The website was developed as part of the **Full Stack Developer Course** at <a href="https://codeinstitute.net/" target="_blank" rel="noopener">**Code Institute**</a> and was submitted as my third portfolio project. I would like to thank my mentor <a href="https://www.linkedin.com/in/precious-ijege-908a00168/" target="_blank" rel="noopener">**Precious Ijege**</a> for his encouragement and advice, particularly in pointing me in the right direction with regards to best practices in documenting Python code.
