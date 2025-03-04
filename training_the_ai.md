@@ -156,6 +156,10 @@ On each iteration:
     - The Q-value for the current `(state, action)` is updated based on the assigned reward by calling the `_update_q_value` method
     - The current state is updated to reflect the chosen action
 
+The flow chart below shows a visual summary of this process.
+
+![Flow Chart showing logic for training the AI](readme-images/flow-chart-train-ai.jpg)
+
 ### A Closer Look at the `choose_action` Method
 
 In reinforcement learning, there are two strategies that are used to guide decision making:
