@@ -10,7 +10,7 @@ I hope to demonstrate best coding practices, particularly with regards to:
 
 I decided to build a maths-strategy game which expands on a simple game that my children and I enjoy playing on our way to school. My hope is that they will enjoy playing this game and develop their mathematical strategy skills further.
 
-Having learnt a little about machine learning algorithms, I was keen to explore these ideas further. The game is well suited to a technique called **Reinforcement Learning**, specifically *Q-Learning*, in which an AI plays against itself many times to learn the optimal moves which maximize its chances of winning the game.
+Having learnt a little about machine learning algorithms, I was keen to explore these ideas further. The game is well suited to a technique called **Reinforcement Learning**, specifically *Q-Learning*, in which an AI plays against itself many times to learn the optimal moves which maximise its chances of winning the game.
 
 ## How To Play The Game
 
@@ -42,3 +42,4 @@ The following flow charts show a high level overview of the code logic.
 
 ![Flow Chart showing logic for changing game settings](readme-images/flow-chart-change-game-settings.jpg)
 
+***NOTE:*** *The flow chart showing the logic for how the AI is trained is included in a [**separate document**](training_the_ai.md) which discusses this process in more detail*
