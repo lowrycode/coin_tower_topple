@@ -189,7 +189,7 @@ The code was written with extensibility in mind. For example, the Main Menu is d
 Functions allow for flexibility in how they are used. For example, the `choose_action` method in the `AIPlayer` class makes use of the `explore_fraction` parameter to control the level of randomness in decision making. This means that the same function can be used for playing games at varying levels of difficulty and also when training the AI before the game.
 - `explore_fraction=0`: Used when training the AI (predicting the opponents next move) and playing games on the highest difficulty setting.
 - `explore_fraction=1`: Used when training the AI (to ensure all state-action combinations are tested).
-- `explore_fraction=0.33` and `explore_fraction=0.66`: Used during game play on *Easy* and *Medium* difficulty level settings respectively.
+- `explore_fraction=0.66` and `explore_fraction=0.33`: Used during game play on *Easy* and *Medium* difficulty level settings respectively.
 
 Another example of the flexibility afforded by the code structure can be seen in considering the game settings which are initialised within the `CoinTowerTopple` class. These settings can be easily modified, allowing users to customise the game to their preferences.
 
