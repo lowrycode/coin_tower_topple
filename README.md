@@ -211,12 +211,16 @@ The <a href="https://pep8ci.herokuapp.com/" target="_blank" rel="noopener">**CI 
 
 The flow charts documenting the code logic were designed using <a href="https://www.drawio.com/" target="_blank" rel="noopener">**Draw.io**</a>. 
 
-# Python Packages
+# Python Version & Packages
+
+The project was developed using **Python 3.12.8**.
 
 The following Python packages were used:
 - <a href="https://docs.python.org/3/library/sys.html" target="_blank" rel="noopener">**sys**</a> - to close the program when the user chooses 'Quit' from the Main Menu
 - <a href="https://docs.python.org/3/library/random.html" target="_blank" rel="noopener">**random**</a> - to generate random numbers and make random choices from a list
-- <a href="https://docs.python.org/3/library/pprint.html" target="_blank" rel="noopener">**pprint**</a> - to view q_values after training the AI during development (this dependency was removed before deployment)
+- <a href="https://docs.python.org/3/library/pprint.html" target="_blank" rel="noopener">**pprint**</a> - to view `q_values` after training the AI during development (this dependency was removed before deployment)
+
+No third party libraries were used in the development of this project.
 
 # Testing
 
