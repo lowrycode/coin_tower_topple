@@ -279,7 +279,7 @@ The output of this code will show the q values for each action as a list (in the
 
 The image below shows the q_values that were obtained during training with the game settings specified above. The output has been manually formatted to show the trends more clearly: the highest Q-value in each list has been emphasised (using a heavy font weight and underlined) to show which action the AI will choose when playing optimally.
 
-![Q-Values after AI has been trained for a particular game](readme-images/Q-values.jpg)
+![Q-Values after AI has been trained for a particular game](readme-images/q-values-example.jpg)
 
 It is clear from this data that the AI has indeed 'learned' the strategy.
 
